@@ -84,7 +84,9 @@ function generateHtml() {
 	result.appendChild(messageNode);
 
 	loading.classList.add("hidden");
-	result.style.backgroundColor = "IndianRed";
+	if(message.startsWith("Error!") {
+	   result.style.backgroundColor = "IndianRed";
+	   }
 	result.classList.remove("hidden");
 }
 
