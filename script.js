@@ -65,7 +65,7 @@ async function fetchMarkovMessage(event) {
 
 	// const json = JSON.parse(await getJson(`${url}${channelName}`));
 	const json = await getJson(`${url}${channelName}`);
-	
+
 	var isError
 
 	if(json == undefined) {
@@ -73,11 +73,11 @@ async function fetchMarkovMessage(event) {
 	}
 	else if (json.error != "") {
 		message = "Error! " + json["error"];
-		let isError = true
+		isError = true
 	}
 	else {
 		message = json["markov_sentence"];
-		let isError = false
+		isError = false
 	}
 
 	generateHtml(isError);
@@ -88,9 +88,11 @@ function generateHtml(isError) {
 	result.appendChild(messageNode);
 
 	loading.classList.add("hidden");
-	if(message.startsWith("Error!")) {
-	   result.style.backgroundColor = "IndianRed";
-	   }
+	if(isError) {
+		result.style.backgroundColor = "IndianRed";
+	} else {
+		result.style.backgroundColor = "";
+	}
 	result.classList.remove("hidden");
 }
 
