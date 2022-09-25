@@ -574,7 +574,8 @@ input[type="tag"] {
 }
 
 #socials {
-	margin: 50px;
+	margin-top: 300px;
+	margin: 200px;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
