@@ -20,7 +20,7 @@ header {
 }
 
 header img {
-	width: 150px;
+	width: 250px;
 	height: auto;
 }
 
@@ -583,8 +583,7 @@ input[type="tag"] {
 
 #socials img {
 	align-items: center;
-	padding: 30px;
-	padding-top: 10px;
+	padding: 50px;
 }
 
 footer {

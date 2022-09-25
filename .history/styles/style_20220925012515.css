@@ -20,7 +20,7 @@ header {
 }
 
 header img {
-	width: 150px;
+	width: 250px;
 	height: auto;
 }
 
@@ -61,15 +61,11 @@ em {
 	font-style: unset;
 }
 
-#pagetitle a {
-	color: white;
-}
-
 a {
 	color: rgb(169, 112, 255);
 	text-decoration: unset;
 	font-weight: bold;
-	transition: opacity .3s;
+	transition: opacity .5s;
 }
 
 #result a {
@@ -571,20 +567,6 @@ input[type="tag"] {
 	background-color: rgb(255, 196, 57);
 	font-size: 0.9em;
 	font-weight: 600;
-}
-
-#socials {
-	padding: 20px;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-}
-
-#socials img {
-	align-items: center;
-	padding: 30px;
-	padding-top: 10px;
 }
 
 footer {

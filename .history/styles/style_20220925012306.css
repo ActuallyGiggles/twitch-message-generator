@@ -20,7 +20,7 @@ header {
 }
 
 header img {
-	width: 150px;
+	width: 250px;
 	height: auto;
 }
 
@@ -39,6 +39,7 @@ h2 {
 	font-size: 1.5em;
 	margin: 0;
 	font-weight: 300;
+	color: white;
 }
 
 section {
@@ -59,10 +60,6 @@ p {
 em {
 	font-weight: bolder;
 	font-style: unset;
-}
-
-#pagetitle a {
-	color: white;
 }
 
 a {
@@ -571,20 +568,6 @@ input[type="tag"] {
 	background-color: rgb(255, 196, 57);
 	font-size: 0.9em;
 	font-weight: 600;
-}
-
-#socials {
-	padding: 20px;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-}
-
-#socials img {
-	align-items: center;
-	padding: 30px;
-	padding-top: 10px;
 }
 
 footer {

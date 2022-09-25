@@ -20,7 +20,7 @@ header {
 }
 
 header img {
-	width: 150px;
+	width: 250px;
 	height: auto;
 }
 
@@ -61,7 +61,7 @@ em {
 	font-style: unset;
 }
 
-#pagetitle a {
+#pagetitle {
 	color: white;
 }
 
@@ -571,20 +571,6 @@ input[type="tag"] {
 	background-color: rgb(255, 196, 57);
 	font-size: 0.9em;
 	font-weight: 600;
-}
-
-#socials {
-	padding: 20px;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-}
-
-#socials img {
-	align-items: center;
-	padding: 30px;
-	padding-top: 10px;
 }
 
 footer {
