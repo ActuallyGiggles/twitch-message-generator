@@ -592,25 +592,14 @@ footer {
 	margin-top: auto;
 	padding: 5px;
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	background-color: black;
 }
 
-footer #dev-links{
-	display: flex;
-	flex-direction: row;
-	margin-bottom: 5px;
-	display: flex;
-	justify-content: center;
-}
-
 footer p {
-	padding-left: 10px;
-	padding-right: 10px;
-	font-size: 0.8em;
+	font-size: 0.5em;
 	font-weight: 200;
-	margin: 1px;
+	margin: 2px;
 }
 
 footer a {
@@ -619,10 +608,8 @@ footer a {
 
 .github {
 	height: 20px;
-}
-
-#gitImage {
-	vertical-align: text-bottom;
+	margin-left: 5px;
+	vertical-align: middle;
 }
 
 

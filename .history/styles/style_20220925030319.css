@@ -610,11 +610,12 @@ footer p {
 	padding-right: 10px;
 	font-size: 0.8em;
 	font-weight: 200;
-	margin: 1px;
+	margin: 2px;
 }
 
 footer a {
 	font-weight: 400;
+	vertical-align: middle;
 }
 
 .github {
@@ -622,7 +623,7 @@ footer a {
 }
 
 #gitImage {
-	vertical-align: text-bottom;
+	vertical-align: bottom;
 }
 
 

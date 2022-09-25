@@ -600,9 +600,7 @@ footer {
 footer #dev-links{
 	display: flex;
 	flex-direction: row;
-	margin-bottom: 5px;
-	display: flex;
-	justify-content: center;
+	margin-bottom: 10px;
 }
 
 footer p {
@@ -610,19 +608,18 @@ footer p {
 	padding-right: 10px;
 	font-size: 0.8em;
 	font-weight: 200;
-	margin: 1px;
+	margin: 2px;
 }
 
 footer a {
+	padding-left: 15px;
 	font-weight: 400;
 }
 
 .github {
 	height: 20px;
-}
-
-#gitImage {
-	vertical-align: text-bottom;
+	margin-left: 5px;
+	vertical-align: middle;
 }
 
 
