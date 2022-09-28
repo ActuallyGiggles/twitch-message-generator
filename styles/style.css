@@ -403,6 +403,7 @@ input[type="tag"] {
 
 #result, #loading {
 	width: 60%;
+	margin-top: 5px;
 	padding: 30px;
 	border-radius: 15px;
 	background-color: rgb(31, 31, 31);
@@ -419,8 +420,6 @@ input[type="tag"] {
 	font-size: 0.9em;
 	font-weight: bold;
 	margin: 0px;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 #using {
@@ -449,8 +448,8 @@ input[type="tag"] {
 	height: fit-content;
 	width: 20%;
 	position: relative;
-	margin: 5px;
-	padding: 20px;
+	margin: 10px;
+	padding: 10px;
 	font-size: 0.7em;
 	border-radius: 15px;
 	background-color: rgb(37, 37, 37);
@@ -458,7 +457,6 @@ input[type="tag"] {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	
 }
 
 .channel-card:hover {
@@ -468,8 +466,25 @@ input[type="tag"] {
 	text-decoration: unset;
 	font-weight: bold;
 	transition: opacity 1s;
-	display: flex;
+	display: flexbox;
 	cursor: pointer;
+}
+
+.channel-card:hover #twitch-popout {
+	display: none;
+}
+
+#twitch-popout {
+	height: 100%;
+	position: inherit;
+	padding: 5%;
+	margin-left: 10px;
+	font-size: 0.7em;
+	border-radius: 15px;
+	background-color: rgb(115, 30, 175);	
+	display: none;
+	flex: auto;
+	align-items: right;
 }
 
 #broadcaster-pfp {
@@ -481,6 +496,7 @@ input[type="tag"] {
 
 #channel-name-label {
 	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #emote-name-label {

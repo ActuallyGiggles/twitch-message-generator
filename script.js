@@ -2,10 +2,11 @@ let DEBUG = false;
 
 let channelName = "";
 let message = "";
-let channels;
+let channels = {};
+let channelsJson = {}
 
 const homeUrl = "https://actuallygiggles.localtonet.com"
-const getSentenceUrl = "https://actuallygiggles.localtonet.com/get-sentence?channel="
+const markovUrl = "https://actuallygiggles.localtonet.com/get-sentence?channel="
 const channelsUrl = "https://actuallygiggles.localtonet.com/tracked-channels"
 const emotesUrl = "https://actuallygiggles.localtonet.com/tracked-emotes"
 
@@ -40,7 +41,7 @@ function encodeQueryData(data) {
     return ret.join('&');
 }
 
-const getJson = (getSentenceUrl) => fetch(getSentenceUrl, { method: "GET" }).then(async (response) => {
+const getJson = (markovUrl) => fetch(markovUrl, { method: "GET" }).then(async (response) => {
 	const contentType = response.headers.get("Content-Type");
 	if (contentType.includes("text/plain")) {
 		const text = await response.text();
@@ -52,10 +53,12 @@ const getJson = (getSentenceUrl) => fetch(getSentenceUrl, { method: "GET" }).the
 
 async function generateInitialHtml() {
 	channels = await getJson(`${channelsUrl}`)
-	
 	for (const channel of channels) {
-		var name = channel.display_name
-		var profileImage = channel.profile_image_url
+		const name = channel.login
+		const displayName = channel.display_name
+		const profileImage = channel.profile_image_url
+		
+		channelsJson[displayName] = name
 
 		const channelCard = document.createElement("div")
 		channelCard.classList.add("channel-card")
@@ -63,30 +66,44 @@ async function generateInitialHtml() {
 		const pfp = new Image()
 		pfp.src = profileImage
 		pfp.id = "broadcaster-pfp"
+		pfp.target= '_blank';
+		pfp.onclick = function() {
+			window.location.href = 'https://www.twitch.tv/' + name
+		};
 		channelCard.appendChild(pfp)
 
 		const channelNameLabel = document.createElement("div")
 		channelNameLabel.id = "channel-name-label"
-		const channelNameText = document.createTextNode(`${name}`)
+		const channelNameText = document.createTextNode(`${displayName}`)
 		channelNameLabel.appendChild(channelNameText)
 		channelCard.appendChild(channelNameLabel)
+
+		const twitchPopout = document.createElement("div")
+		twitchPopout.id = "twitch-popout"
+		channelCard.appendChild(twitchPopout)
 
 		channelsTracked.appendChild(channelCard)
 		channelsTracked.classList.remove("hidden");
 	}
 }
 
-async function fetchMarkovMessage(event) {
+async function fetchMarkovMessage(event, cName) {
 	if (event != null) {
 		event.preventDefault();
 	}
+
+	document.title = "Message Generator • " + channelName;
 
 	result.textContent = "";
 	result.classList.add("hidden")
 	loading.classList.remove("hidden");
 
 	let urlParameters = {};
-	urlParameters["channel"] = channelName;
+	if (cName == "") {
+		urlParameters["channel"] = channelsJson[channelName];
+	} else {
+		urlParameters["channel"] = cName
+	}
 
 	if (DEBUG) {
 		urlParameters["debug"] = true;
@@ -95,8 +112,7 @@ async function fetchMarkovMessage(event) {
 	let urlParameterString = `${window.location.pathname}?${encodeQueryData(urlParameters)}`;
 	window.history.pushState(null, "", urlParameterString);
 
-	// const json = JSON.parse(await getJson(`${url}${channelName}`));
-	const json = await getJson(`${getSentenceUrl}${channelName}`);
+	const json = await getJson(`${markovUrl}${urlParameters["channel"]}`);
 
 	var isError
 
@@ -139,20 +155,18 @@ const channelsTracked = document.getElementById("channels");
 const result = document.getElementById("result");
 const using = document.getElementById("using");
 
-onReady(() => {
+onReady(async () => {
 	generateInitialHtml()
 
 	document.addEventListener('click', function (event) {
 		if (event.target.className == "channel-card") {
 			channelName = event.target.innerText
-			channelName = channelName.toLowerCase()
-			fetchMarkovMessage(event)
+			fetchMarkovMessage(event, "")
 		}
 		
 		if (event.target.offsetParent.className == "channel-card") {
 			channelName = event.target.offsetParent.innerText
-			channelName = channelName.toLowerCase()
-			fetchMarkovMessage(event)
+			fetchMarkovMessage(event, "")
 		}
 	})
 
@@ -163,6 +177,6 @@ onReady(() => {
 
 	if(searchParameters.has("channel")) {
 		channelName = searchParameters.get("channel");
-		fetchMarkovMessage(null);
+		fetchMarkovMessage(null, channelName);
 	}
 });
