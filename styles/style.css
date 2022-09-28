@@ -392,6 +392,8 @@ input[type="tag"] {
 	width: 20px;
 	height: 20px;
 	animation: spin 1s linear infinite;
+	display: flex;
+	margin: 0;
 }
 
 @keyframes spin {
@@ -399,15 +401,9 @@ input[type="tag"] {
 	100% { transform: rotate(360deg); }
 }
 
-<<<<<<< Updated upstream
-#loading,
-#user-not-found,
-#no-emote-duplicates,
-#result {
-=======
 #result, #loading {
 	width: 60%;
-	padding: 15px;
+	padding: 30px;
 	border-radius: 15px;
 	background-color: rgb(31, 31, 31);
 	box-shadow: 2px 2px 10px 2px black;
@@ -435,9 +431,8 @@ input[type="tag"] {
 }
 
 #channels {
->>>>>>> Stashed changes
 	position: relative;
-	width: 1150px;
+	width: 90%;
 	margin: 30px;
 	margin-bottom: 0px;
 	padding: 15px;
@@ -450,20 +445,18 @@ input[type="tag"] {
 	justify-content: space-evenly;
 }
 
-#emote-duplicate-card {
+.channel-card {
 	height: fit-content;
-<<<<<<< Updated upstream
-=======
 	width: 20%;
->>>>>>> Stashed changes
 	position: relative;
-	margin: 10px;
+	margin: 5px;
 	padding: 20px;
+	font-size: 0.7em;
 	border-radius: 15px;
 	background-color: rgb(37, 37, 37);
-	box-shadow: 2px 2px 10px 2px black;
+	box-shadow: 2px 2px 10px 2px black;	
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
 	
 }
@@ -479,8 +472,6 @@ input[type="tag"] {
 	cursor: pointer;
 }
 
-<<<<<<< Updated upstream
-=======
 #broadcaster-pfp {
 	margin-right: 15px;
 	border-radius: 100%;
@@ -492,7 +483,6 @@ input[type="tag"] {
 	overflow: hidden;
 }
 
->>>>>>> Stashed changes
 #emote-name-label {
 	position: relative;
 }

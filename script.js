@@ -2,8 +2,12 @@ let DEBUG = false;
 
 let channelName = "";
 let message = "";
+let channels;
 
-const url = "https://actuallygiggles.localtonet.com/getsentence?channel=";
+const homeUrl = "https://actuallygiggles.localtonet.com"
+const getSentenceUrl = "https://actuallygiggles.localtonet.com/get-sentence?channel="
+const channelsUrl = "https://actuallygiggles.localtonet.com/tracked-channels"
+const emotesUrl = "https://actuallygiggles.localtonet.com/tracked-emotes"
 
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
@@ -36,7 +40,7 @@ function encodeQueryData(data) {
     return ret.join('&');
 }
 
-const getJson = (url) => fetch(url, { method: "GET" }).then(async (response) => {
+const getJson = (getSentenceUrl) => fetch(getSentenceUrl, { method: "GET" }).then(async (response) => {
 	const contentType = response.headers.get("Content-Type");
 	if (contentType.includes("text/plain")) {
 		const text = await response.text();
@@ -46,8 +50,6 @@ const getJson = (url) => fetch(url, { method: "GET" }).then(async (response) => 
 	}
 }).catch((error) => console.error(error));
 
-<<<<<<< Updated upstream
-=======
 async function generateInitialHtml() {
 	channels = await getJson(`${channelsUrl}`)
 	
@@ -74,13 +76,13 @@ async function generateInitialHtml() {
 	}
 }
 
->>>>>>> Stashed changes
 async function fetchMarkovMessage(event) {
 	if (event != null) {
 		event.preventDefault();
 	}
 
 	result.textContent = "";
+	result.classList.add("hidden")
 	loading.classList.remove("hidden");
 
 	let urlParameters = {};
@@ -94,7 +96,7 @@ async function fetchMarkovMessage(event) {
 	window.history.pushState(null, "", urlParameterString);
 
 	// const json = JSON.parse(await getJson(`${url}${channelName}`));
-	const json = await getJson(`${url}${channelName}`);
+	const json = await getJson(`${getSentenceUrl}${channelName}`);
 
 	var isError
 
@@ -117,26 +119,11 @@ function generateHtml(isError) {
 	const messageNode = document.createTextNode(message);
 	result.appendChild(messageNode);
 
-<<<<<<< Updated upstream
-	loading.classList.add("hidden");
-=======
->>>>>>> Stashed changes
 	if(isError) {
 		result.style.backgroundColor = "IndianRed";
 	} else {
 		result.style.backgroundColor = "";
 	}
-<<<<<<< Updated upstream
-	result.classList.remove("hidden");
-}
-
-const generator = document.getElementById("generator");
-const channel = document.getElementById("channel");
-const loading = document.getElementById("loading");
-const result = document.getElementById("result");
-
-generator.addEventListener("submit", (event) => fetchMarkovMessage(event));
-=======
 
 	using.textContent = ""
 	usingMessage = document.createTextNode("Currently using channel: " + capitalizeFirstLetter(channelName))
@@ -168,9 +155,7 @@ onReady(() => {
 			fetchMarkovMessage(event)
 		}
 	})
->>>>>>> Stashed changes
 
-onReady(() => { 
 	const searchParameters = new URLSearchParams(window.location.search);
 	if(searchParameters.get("debug")) {
 		DEBUG = true;
