@@ -1,9 +1,13 @@
 let DEBUG = false;
 
-let channelName = "39daph";
+let channelName = "";
 let message = "";
 
 const url = "https://actuallygiggles.localtonet.com/getsentence?channel=";
+
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
 const onReady = (callback) => {
 	if (document.readyState != "loading") {
@@ -42,16 +46,42 @@ const getJson = (url) => fetch(url, { method: "GET" }).then(async (response) => 
 	}
 }).catch((error) => console.error(error));
 
+<<<<<<< Updated upstream
+=======
+async function generateInitialHtml() {
+	channels = await getJson(`${channelsUrl}`)
+	
+	for (const channel of channels) {
+		var name = channel.display_name
+		var profileImage = channel.profile_image_url
+
+		const channelCard = document.createElement("div")
+		channelCard.classList.add("channel-card")
+
+		const pfp = new Image()
+		pfp.src = profileImage
+		pfp.id = "broadcaster-pfp"
+		channelCard.appendChild(pfp)
+
+		const channelNameLabel = document.createElement("div")
+		channelNameLabel.id = "channel-name-label"
+		const channelNameText = document.createTextNode(`${name}`)
+		channelNameLabel.appendChild(channelNameText)
+		channelCard.appendChild(channelNameLabel)
+
+		channelsTracked.appendChild(channelCard)
+		channelsTracked.classList.remove("hidden");
+	}
+}
+
+>>>>>>> Stashed changes
 async function fetchMarkovMessage(event) {
 	if (event != null) {
 		event.preventDefault();
 	}
 
-	result.classList.add("hidden");
 	result.textContent = "";
 	loading.classList.remove("hidden");
-	
-	channelName = channel.value;
 
 	let urlParameters = {};
 	urlParameters["channel"] = channelName;
@@ -87,12 +117,16 @@ function generateHtml(isError) {
 	const messageNode = document.createTextNode(message);
 	result.appendChild(messageNode);
 
+<<<<<<< Updated upstream
 	loading.classList.add("hidden");
+=======
+>>>>>>> Stashed changes
 	if(isError) {
 		result.style.backgroundColor = "IndianRed";
 	} else {
 		result.style.backgroundColor = "";
 	}
+<<<<<<< Updated upstream
 	result.classList.remove("hidden");
 }
 
@@ -102,6 +136,39 @@ const loading = document.getElementById("loading");
 const result = document.getElementById("result");
 
 generator.addEventListener("submit", (event) => fetchMarkovMessage(event));
+=======
+
+	using.textContent = ""
+	usingMessage = document.createTextNode("Currently using channel: " + capitalizeFirstLetter(channelName))
+	using.appendChild(usingMessage)
+
+	loading.classList.add("hidden");
+	result.classList.remove("hidden");
+	using.classList.remove("hidden")
+}
+
+const loading = document.getElementById("loading");
+const channelsTracked = document.getElementById("channels");
+const result = document.getElementById("result");
+const using = document.getElementById("using");
+
+onReady(() => {
+	generateInitialHtml()
+
+	document.addEventListener('click', function (event) {
+		if (event.target.className == "channel-card") {
+			channelName = event.target.innerText
+			channelName = channelName.toLowerCase()
+			fetchMarkovMessage(event)
+		}
+		
+		if (event.target.offsetParent.className == "channel-card") {
+			channelName = event.target.offsetParent.innerText
+			channelName = channelName.toLowerCase()
+			fetchMarkovMessage(event)
+		}
+	})
+>>>>>>> Stashed changes
 
 onReady(() => { 
 	const searchParameters = new URLSearchParams(window.location.search);
@@ -110,7 +177,7 @@ onReady(() => {
 	}
 
 	if(searchParameters.has("channel")) {
-		channel.value = searchParameters.get("channel");
+		channelName = searchParameters.get("channel");
 		fetchMarkovMessage(null);
 	}
 });

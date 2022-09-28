@@ -1,3 +1,8 @@
+@media screen { .nomobile { display: block; } }
+
+@media handheld { .nomobile { display: none; } }
+
+
 body {
 	height: 100vh;
 	margin: 0;
@@ -53,7 +58,7 @@ p {
 	font-size: 1em;
 	text-align: center;
 	margin-top: 0px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 em {
@@ -70,16 +75,6 @@ a {
 	text-decoration: unset;
 	font-weight: bold;
 	transition: opacity .3s;
-}
-
-#result a {
-	color: white;
-	text-decoration: unset;
-	font-weight: bold;
-	transition: opacity .3s;
-	display: flex;
-	align-items: center;
-	justify-items: center;
 }
 
 a:hover {
@@ -404,17 +399,50 @@ input[type="tag"] {
 	100% { transform: rotate(360deg); }
 }
 
+<<<<<<< Updated upstream
 #loading,
 #user-not-found,
 #no-emote-duplicates,
 #result {
+=======
+#result, #loading {
+	width: 60%;
+	padding: 15px;
+	border-radius: 15px;
+	background-color: rgb(31, 31, 31);
+	box-shadow: 2px 2px 10px 2px black;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	justify-content: space-evenly;
+}
+
+#result p {
+	max-width: 1040px;
+	text-align: center;
+	font-size: 0.9em;
+	font-weight: bold;
+	margin: 0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#using {
+	font-size: .7em;
+	text-align: center;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+#channels {
+>>>>>>> Stashed changes
 	position: relative;
 	width: 1150px;
 	margin: 30px;
 	margin-bottom: 0px;
 	padding: 15px;
 	border-radius: 15px;
-	background-color: rgb(30, 30, 30);
+	background-color: rgb(22, 22, 22);
 	box-shadow: 2px 2px 10px 2px black;
 	display: flex;
 	flex-wrap: wrap;
@@ -424,6 +452,10 @@ input[type="tag"] {
 
 #emote-duplicate-card {
 	height: fit-content;
+<<<<<<< Updated upstream
+=======
+	width: 20%;
+>>>>>>> Stashed changes
 	position: relative;
 	margin: 10px;
 	padding: 20px;
@@ -433,8 +465,34 @@ input[type="tag"] {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	
 }
 
+.channel-card:hover {
+	background-color: rgb(54, 54, 54);
+	box-shadow: 0px 0px 10px 2px gray;	
+	color: white;
+	text-decoration: unset;
+	font-weight: bold;
+	transition: opacity 1s;
+	display: flex;
+	cursor: pointer;
+}
+
+<<<<<<< Updated upstream
+=======
+#broadcaster-pfp {
+	margin-right: 15px;
+	border-radius: 100%;
+	max-width: 50px;
+	max-height: 50px;
+}
+
+#channel-name-label {
+	overflow: hidden;
+}
+
+>>>>>>> Stashed changes
 #emote-name-label {
 	position: relative;
 }
@@ -447,7 +505,6 @@ input[type="tag"] {
 	gap: 20px;
 	justify-content: center;
 	align-items: flex-start;
-
 }
 
 #emote-duplicate-entity {
@@ -519,16 +576,6 @@ input[type="tag"] {
 
 #user-not-found p,
 #no-emote-duplicates p {
-	max-width: 1040px;
-	text-align: center;
-	font-size: 0.9em;
-	font-weight: bold;
-	margin: 0px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-#result p {
 	max-width: 1040px;
 	text-align: center;
 	font-size: 0.9em;
