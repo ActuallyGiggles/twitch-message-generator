@@ -419,8 +419,6 @@ input[type="tag"] {
 	font-size: 0.9em;
 	font-weight: bold;
 	margin: 0px;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 #using {
@@ -481,6 +479,7 @@ input[type="tag"] {
 
 #channel-name-label {
 	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #emote-name-label {
