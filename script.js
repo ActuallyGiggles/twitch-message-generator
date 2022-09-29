@@ -53,6 +53,18 @@ const getJson = (markovUrl) => fetch(markovUrl, { method: "GET" }).then(async (r
 
 async function generateInitialHtml() {
 	channels = await getJson(`${channelsUrl}`)
+
+	if (channels == null || channels == "") {
+		loading.classList.add("hidden")
+		result.classList.add("hidden")
+		channelsTracked.classList.add("hidden")
+		using.classList.add("hidden")
+		description.classList.add("hidden")
+		donation.classList.add("hidden")
+
+		error.classList.remove("hidden")
+	}
+
 	for (const channel of channels) {
 		const name = channel.login
 		const displayName = channel.display_name
@@ -154,6 +166,9 @@ const loading = document.getElementById("loading");
 const channelsTracked = document.getElementById("channels");
 const result = document.getElementById("result");
 const using = document.getElementById("using");
+const error = document.getElementById("api-error");
+const description = document.getElementById("description");
+const donation = document.getElementById("donation");
 
 onReady(async () => {
 	generateInitialHtml()

@@ -499,6 +499,21 @@ input[type="tag"] {
 	text-overflow: ellipsis;
 }
 
+#api-error {
+	width: 80%;
+	margin: 30px;
+	display: inline-block;
+	text-align: center;
+}
+
+#api-error-image {
+	margin: 20px;
+}
+
+#api-error-message {
+	font-size: 3em;
+}
+
 #emote-name-label {
 	position: relative;
 }

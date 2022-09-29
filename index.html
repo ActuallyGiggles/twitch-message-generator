@@ -23,9 +23,19 @@
     </header>
 
     <section>
-        <p>
+        <p id="description">
 			Generate a message based on <a href="https://www.twitch.tv/" target="_blank">Twitch</a> chatrooms using Markov chains. <img src="img/peepoHappy.png" class="emote">
 		</p>
+
+        <div id="api-error" class="hidden">
+            <img src="img/PANIC.gif" id="api-error-image">
+            <p id="api-error-message">
+                Whoops!
+            </p>
+            <p>
+                Looks like the server is having a fit!<br>We'll be back as soon as possible!!!
+            </p>
+        </div>
 
 		<div id="loading" class="hidden">
 			<div id="loading-icon"></div>
@@ -66,13 +76,12 @@
             <input type="hidden" name="hosted_button_id" value="SRGWJ9QMHMHUG">
             <input id="paypal" type="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" value="Donate to giambaJ">
         </form>
-
-        <div id="socials">
-            <a href="https://discord.gg/wA96rfyn9p"><img src="img/discord.png" width="50px" height="auto"></a>
-            <a href="https://twitter.com/shit_chat_says"><img src="img/twitter.png" width="50px" height="auto"></a>
-        </div>
-        
 	</section>
+
+    <div id="socials">
+        <a href="https://discord.gg/wA96rfyn9p"><img src="img/discord.png" width="50px" height="auto"></a>
+        <a href="https://twitter.com/shit_chat_says"><img src="img/twitter.png" width="50px" height="auto"></a>
+    </div>
 
 	<footer>
 		<div id="dev-links">
