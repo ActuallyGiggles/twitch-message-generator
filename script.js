@@ -126,7 +126,7 @@ async function fetchMarkovMessage(event, cName) {
 		event.preventDefault();
 	}
 
-	document.title = "Message Generator • " + channelName;
+	document.title = "Twitch Msg Gen • " + channelName;
 
 	result.textContent = "";
 	result.classList.add("hidden")
