@@ -3,7 +3,9 @@ let DEBUG = false;
 let channelName = "";
 let message = "";
 let channels = {};
-let channelsJson = {}
+let channelsJson = {};
+let isError;
+
 
 const homeUrl = "https://actuallygiggles.localtonet.com"
 const markovUrl = "https://actuallygiggles.localtonet.com/get-sentence?channel="
@@ -140,17 +142,15 @@ async function fetchMarkovMessage(event, cName) {
 		isError = false
 	}
 
-	generateHtml(isError);
+	generateHtml();
 }
 
-function generateHtml(isError) {
+function generateHtml() {
 	const messageNode = document.createTextNode(message);
 	result.appendChild(messageNode);
 
 	if(isError) {
-		result.style.backgroundColor = "IndianRed";
-	} else {
-		result.style.backgroundColor = "";
+		return;
 	}
 
 	using.textContent = ""
