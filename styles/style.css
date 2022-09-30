@@ -510,10 +510,10 @@ input[type="tag"] {
 	margin-right: 20px;
 }
 
-#pfp:hover {
+/* #pfp:hover {
 	opacity: .62;
 	transition: opacity .3s;
-}
+} */
 
 #broadcaster-pfp {
 	border-radius: 100%;

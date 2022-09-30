@@ -91,10 +91,10 @@ async function generateInitialHtml() {
 		const image = new Image()
 		image.src = profileImage
 		image.id = "broadcaster-pfp"
-		image.target= '_blank';image
-		image.onclick = function() {
-			window.location.href = 'https://www.twitch.tv/' + name
-		}
+		// image.target= '_blank';
+		// image.onclick = function() {
+		// 	window.location.href = 'https://www.twitch.tv/' + name
+		// }
 
 		if (liveChannels[name]) {
 			// Append pulse to image
@@ -118,7 +118,7 @@ async function generateInitialHtml() {
 		channelInfo.appendChild(channelNameLabel)
 
 		// Create twitch popout
-		/*const twitchPopout = document.createElement("div")
+		const twitchPopout = document.createElement("div")
 		twitchPopout.id = "twitch-popout"
 
 		// Create twitch link
@@ -136,11 +136,11 @@ async function generateInitialHtml() {
 		twitchLink.appendChild(twitchLogo)
 
 		// Append twitch logo image to twitch popout
-		twitchPopout.appendChild(twitchLink)*/
+		twitchPopout.appendChild(twitchLink)
 
 		// Append channel info and twitch popout to channel card
 		channelCard.appendChild(channelInfo)
-		//channelCard.appendChild(twitchPopout)
+		channelCard.appendChild(twitchPopout)
 
 		var channelCardClone = channelCard.cloneNode(true)
 		channelCards.push({
