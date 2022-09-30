@@ -1,3 +1,107 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Twitch Message Generator</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@400;500;600;700;800&family=Comfortaa:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Indie+Flower&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans+JP:wght@100;300;400;500;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,900&family=Press+Start+2P&family=Wallpoet&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" class="preview_size" href="styles/size_large.css">
+    <link rel="stylesheet" class="preview_font" href="styles/font_BalooTammudu.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <img src="img/WutFace.png">
+        <div>
+            <h1 id ="pagetitle"><a href="/twitch-message-generator/">Twitch Message Generator</a></h1>
+            <h2>by <a href="https://twitch.tv/actuallygiggles" target="_blank">ActuallyGiggles</a></h2>
+        </div>
+    </header>
+
+    <section>
+        <p id="description">
+			Generate a message based on <a href="https://www.twitch.tv/" target="_blank">Twitch</a> chatrooms using Markov chains. <img src="img/peepoHappy.png" class="emote">
+		</p>
+
+        <div id="api-error" class="hidden">
+            <img src="img/PANIC.gif" id="api-error-image">
+            <p id="api-error-message">
+                Whoops!
+            </p>
+            <p>
+                Looks like the server is having a fit!<br>We'll be back as soon as possible!!!
+            </p>
+        </div>
+
+		<div id="loading" class="hidden">
+			<div id="loading-icon"></div>
+		</div>
+
+        <div id="result" class="hidden">
+        </div>
+
+        <div id="using" class="hidden">
+        </div>
+
+		<div id="channels" class="hidden">
+		</div>
+    </section>
+
+    <section id="donation">
+		<span>This app is and will always be free.<br>If you like, and want to support it, feel free to buy us a beer. <img class="emote" src="img/Okayge.png"><img class="emote" src="img/BeerTime.gif"></span>
+		
+        <div style="display: flex;">
+            <form action="https://paypal.me/greencomfytea" target="_blank">
+                <input id="paypal" type="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" value="Donate to GreenComfyTea">
+            </form>
+            <form action="https://ko-fi.com/greencomfytea" target="_blank">
+                <input id="paypal" type="submit" alt="Donate through Kofi!" value="Buy Tea a tea">
+            </form>
+        </div>
+
+        <div style="display: flex;">
+            <form action="https://streamelements.com/actuallygiggles/tip" target="_blank">
+                <input id="paypal" type="submit" title="Tip through Streamelements!" alt="Tip through Streamelements!" value="Donate to ActuallyGiggles">
+            </form>
+            <form action="https://ko-fi.com/actuallygiggles" target="_blank">
+                <input id="paypal" type="submit" alt="Donate through Kofi!" value="Buy Giggles a kofi">
+            </form>
+        </div>
+
+        <form action="https://www.paypal.com/donate" method="post" target="_blank">
+            <input type="hidden" name="hosted_button_id" value="SRGWJ9QMHMHUG">
+            <input id="paypal" type="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" value="Donate to giambaJ">
+        </form>
+	</section>
+
+    <div id="socials">
+        <a href="https://discord.gg/wA96rfyn9p"><img src="img/discord.png" width="50px" height="auto"></a>
+        <a href="https://twitter.com/shit_chat_says"><img src="img/twitter.png" width="50px" height="auto"></a>
+    </div>
+
+	<footer>
+		<div id="dev-links">
+            <p>Markov generator made by <a href="https://www.twitch.tv/ActuallyGiggles">ActuallyGiggles</a>
+                <a href="https://github.com/ActuallyGiggles" target="_blank"><img class="github"  id="gitImage" src="img/github.png"></a>
+            </p>
+            <p>Website made with <span style='color:palevioletred'>&#10084;</span> by <a href="https://www.twitch.tv/GreenComfyTea">GreenComfyTea</a>
+                <a href="https://github.com/GreenComfyTea" target="_blank"><img class="github"  id="gitImage" src="img/github.png"></a>
+            </p>
+            <p>Based on <a href="https://github.com/giambaJ/jChat">jChat</a> code by <a href="mailto:me@giambaj.it">giambaJ</a>
+                <a href="https://github.com/giambaJ/jChat" target="_blank"><img class="github" id="gitImage" src="img/github.png"></a>
+            </p>
+        </div>
+		<p>This application is not affiliated with <a href="https://www.twitch.tv/" target="_blank">Twitch</a></p>
+	</footer>
+</body>
+
+</html>
+=======
 <!DOCTYPE html>
 <html>
 
@@ -101,3 +205,4 @@
 </body>
 
 </html>
+>>>>>>> 629f45007bc36514676621a2271c21bdf8bc21a2
