@@ -198,6 +198,8 @@ async function fetchMarkovMessage(event, cName) {
 		isError = false
 	}
 
+	console.log("original message is -> " + message)
+
 	replaceEmotes(isError)
 }
 
@@ -260,7 +262,7 @@ function replaceEmotes(isError) {
 		err = document.createTextNode(`${message}`)
 		resultObj.appendChild(err)
 	}
-
+	
 	generateHtml(isError, resultObj)
 }
 
