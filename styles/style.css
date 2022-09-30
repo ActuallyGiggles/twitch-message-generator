@@ -430,10 +430,17 @@ input[type="tag"] {
 }
 
 #using {
+	margin-top: 30px;
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#using-text {
 	font-size: .7em;
 	text-align: center;
-	margin-top: 15px;
-	margin-bottom: 10px;
 }
 
 #channels {

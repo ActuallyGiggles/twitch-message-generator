@@ -6,15 +6,12 @@ let channels = {};
 let channelsJson = {};
 let channelIds = {};
 let emotes = [];
+let channelCards = [];
 
 const homeUrl = "https://actuallygiggles.localtonet.com"
 const markovUrl = "https://actuallygiggles.localtonet.com/get-sentence?channel="
 const channelsUrl = "https://actuallygiggles.localtonet.com/tracked-channels"
 const emotesUrl = "https://actuallygiggles.localtonet.com/tracked-emotes"
-
-function capitalizeFirstLetter(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
-  }
 
 const onReady = (callback) => {
 	if (document.readyState != "loading") {
@@ -116,12 +113,18 @@ async function generateInitialHtml() {
 		channelCard.appendChild(channelInfo)
 		channelCard.appendChild(twitchPopout)
 
+		channelCards.push({
+			Name: name,
+			Card: channelCard
+		})
+
 		channelsTracked.appendChild(channelCard)
 		channelsTracked.classList.remove("hidden");
 	}
 }
 
 async function fetchMarkovMessage(event, cName) {
+	scroll(0,0)
 	if (event != null) {
 		event.preventDefault();
 	}
@@ -237,8 +240,19 @@ function generateHtml(isError, resultObj) {
 	}
 
 	using.textContent = ""
-	usingMessage = document.createTextNode("Currently using channel: " + capitalizeFirstLetter(channelName))
-	using.appendChild(usingMessage)
+	usingTextDiv = document.createElement("div")
+	usingTextDiv.id = "using-text"
+	usingText = document.createTextNode("Currently using channel: ")
+	usingTextDiv.appendChild(usingText)
+	using.appendChild(usingTextDiv)
+
+	for (const card of channelCards) {
+		if (card.Name == channelName.toLowerCase()) {
+			card.Card.id = "using-card"
+			using.appendChild(card.Card)
+			break
+		}
+	}
 
 	loading.classList.add("hidden");
 	result.classList.remove("hidden");
