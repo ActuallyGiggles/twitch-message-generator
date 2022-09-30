@@ -3,6 +3,7 @@ let DEBUG = false;
 let channelName = "";
 let message = "";
 let channels = {};
+let liveChannels = {};
 let channelsJson = {};
 let channelIds = {};
 let emotes = [];
@@ -11,6 +12,7 @@ let channelCards = [];
 const homeUrl = "https://actuallygiggles.localtonet.com"
 const markovUrl = "https://actuallygiggles.localtonet.com/get-sentence?channel="
 const channelsUrl = "https://actuallygiggles.localtonet.com/tracked-channels"
+const liveUrl = "https://actuallygiggles.localtonet.com/live-channels"
 const emotesUrl = "https://actuallygiggles.localtonet.com/tracked-emotes"
 
 const onReady = (callback) => {
@@ -77,11 +79,33 @@ async function generateInitialHtml() {
 		const channelInfo = document.createElement("div")
 		channelInfo.classList.add("channel-info")
 
+		// Create pfp
+		const pfp = document.createElement("div")
+		pfp.id = "pfp"
+
+		// Create pulse ring
+		const pulse = document.createElement("div")
+		pulse.classList.add("pulse-ring")
+
 		// Create pfp image
-		const pfp = new Image()
-		pfp.src = profileImage
-		pfp.id = "broadcaster-pfp"
-		pfp.target= '_blank';
+		const image = new Image()
+		image.src = profileImage
+		image.id = "broadcaster-pfp"
+		image.target= '_blank';image
+		image.onclick = function() {
+			window.location.href = 'https://www.twitch.tv/' + name
+		}
+
+		if (liveChannels[name]) {
+			// Append pulse to image
+			pulse.appendChild(image)
+
+			// Append pulse to pfp
+			pfp.appendChild(pulse)
+		} else {
+			// Append image to pfp
+			pfp.appendChild(image)
+		}
 
 		// Create channel label
 		const channelNameLabel = document.createElement("div")
@@ -89,13 +113,17 @@ async function generateInitialHtml() {
 		const channelNameText = document.createTextNode(`${displayName}`)
 		channelNameLabel.appendChild(channelNameText)
 
-		// Append pfp and label to channel info
+		// Append pfp, pulse, and label to channel info
 		channelInfo.appendChild(pfp)
 		channelInfo.appendChild(channelNameLabel)
 
 		// Create twitch popout
 		const twitchPopout = document.createElement("div")
 		twitchPopout.id = "twitch-popout"
+
+		// Create twitch link
+		const twitchLink = document.createElement("a")
+		twitchLink.href = 'https://www.twitch.tv/' + name
 
 		// Create twitch logo image
 		const twitchLogo = new Image()
@@ -105,9 +133,10 @@ async function generateInitialHtml() {
 		twitchLogo.onclick = function() {
 			window.location.href = 'https://www.twitch.tv/' + name
 		}
+		twitchLink.appendChild(twitchLogo)
 
 		// Append twitch logo image to twitch popout
-		twitchPopout.appendChild(twitchLogo)
+		twitchPopout.appendChild(twitchLink)
 
 		// Append channel info and twitch popout to channel card
 		channelCard.appendChild(channelInfo)
@@ -274,6 +303,7 @@ const donation = document.getElementById("donation");
 
 onReady(async () => {	
 	await getChannelInfo()
+	await getLiveInfo()
 
 	generateInitialHtml()
 
@@ -311,6 +341,16 @@ async function getChannelInfo() {
 		const channel = channels[index];
 		
 		channelIds[channel.login] = channel.id
+	}
+}
+
+async function getLiveInfo() {
+	live = await getJson(`${liveUrl}`)
+
+	for (let index = 0; index < live.length; index++) {
+		const channel = live[index];
+		
+		liveChannels[channel.Name] = channel.Live
 	}
 }
 

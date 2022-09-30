@@ -480,7 +480,8 @@ input[type="tag"] {
 	color: white;
 	text-decoration: unset;
 	font-weight: bold;
-	transition: opacity 1s;
+	transition: font-weight .5s;
+	transition: background-color .5s;
 	display: flexbox;
 	cursor: pointer;
 }
@@ -495,13 +496,55 @@ input[type="tag"] {
 
 .channel-card:hover #twitch-popout{
 	display:block;
+  	animation-name: twitch-popout;
+  	animation-duration: .25s;
+	position: relative;
+}
+
+@keyframes twitch-popout {
+	from {left:20px; top:0px; opacity: 0;}
+	to  {left:0px; top:0px; opacity: 1;}
+}
+
+#pfp {
+	margin-right: 20px;
+}
+
+#pfp:hover {
+	opacity: .62;
+	transition: opacity .3s;
 }
 
 #broadcaster-pfp {
-	margin-right: 15px;
 	border-radius: 100%;
 	max-width: 50px;
 	max-height: 50px;
+}
+
+.pulse-ring {
+	width: 50px;
+    height: 50px;            
+    position: relative;
+	border: 2px solid red;
+	border-radius: 50%;
+	animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
 }
 
 #channel-name-label {
