@@ -113,9 +113,10 @@ async function generateInitialHtml() {
 		channelCard.appendChild(channelInfo)
 		channelCard.appendChild(twitchPopout)
 
+		var channelCardClone = channelCard.cloneNode(true)
 		channelCards.push({
 			Name: name,
-			Card: channelCard
+			Card: channelCardClone
 		})
 
 		channelsTracked.appendChild(channelCard)
@@ -202,7 +203,7 @@ function replaceEmotes(isError) {
 				onlyWords = true
 			} else {
 				if (newMessage.length > 0) {
-					txt = document.createTextNode(`${" " + newMessage}`)
+					txt = document.createTextNode(`${newMessage}`)
 					txt.id = "result-text"
 					resultObj.appendChild(txt)
 
@@ -211,8 +212,12 @@ function replaceEmotes(isError) {
 				
 				const emote = new Image()
 				emote.src = url
+				emote.alt = word
+				emote.title = word
 				emote.classList.add("result-emote")
+				space = document.createTextNode(` `)
 				resultObj.appendChild(emote)
+				resultObj.appendChild(space)
 				onlyWords = false
 			}
 		}
@@ -299,6 +304,8 @@ onReady(async () => {
 
 async function getChannelInfo() {
 	channels = await getJson(`${channelsUrl}`)
+
+	channels.sort((a, b) => a.login.localeCompare(b.login))
 
 	for (let index = 0; index < channels.length; index++) {
 		const channel = channels[index];
