@@ -81,309 +81,11 @@ a:hover {
 	opacity: .6;
 }
 
-form[name="generator"] {
-	width: 800px;
-	margin: 0px;
-	padding: 15px;
-	border-radius: 15px;
-	background-color: rgb(30, 30, 30);
-	box-shadow: 2px 2px 10px 2px black;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.form_table {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-}
-
-.form_col {
-	width: 400px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.form_row {
-	width: 100%;
-	height: 40px;
-	display: flex;
-	align-items: center;
-}
-
-.form_row.left {
-	justify-content: flex-start;
-}
-
-.form_row.right {
-	justify-content: flex-end;
-}
-
-.form_row.left label {
-	margin-left: 20px;
-}
-
-.form_row.right label {
-	margin-right: 20px;
-}
-
-.form_row.center {
-	justify-content: center;
-	margin-bottom: 10px;
-}
-
-#check_button {
-	color: rgb(255, 255, 255);
-	background-color: rgb(145, 71, 255);
-	opacity: 1;
-}
-
-#check_button:hover {
-	opacity: .7;
-}
-
-img.center {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-input[type="text"] {
-	width: 220px;
-	height: 30px;
-	border: none;
-	border-radius: 5px;
-	font-family: 'Montserrat', 'Segoe UI', sans-serif;
-	font-size: 0.8em;
-	text-align: center;
-	padding: 2px 10px;
-}
-
-input[type="text"].short {
-	width: 40px;
-	height: 25px;
-	font-size: 0.8em;
-}
-
-input[type="checkbox"] {
-	font-size: 17px;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	width: 50px;
-	height: 25px;
-	background: rgb(221, 221, 221);
-	border-radius: 20px;
-	position: relative;
-	cursor: pointer;
-	outline: none;
-	-webkit-transition: all .2s ease-in-out;
-	transition: all .2s ease-in-out;
-}
-
-input[type="checkbox"]:checked {
-	background: rgb(14, 207, 255);
-}
-
-input[type="checkbox"]:after {
-	position: absolute;
-	content: "";
-	width: 25px;
-	height: 25px;
-	border-radius: 50%;
-	background: white;
-	-webkit-box-shadow: 0 0 .25em rgba(0, 0, 0, .3);
-	box-shadow: 0 0 .25em rgba(0, 0, 0, .3);
-	-webkit-transform: scale(.7);
-	transform: scale(.7);
-	left: 0;
-	-webkit-transition: all .2s ease-in-out;
-	transition: all .2s ease-in-out;
-}
-
-input[type="checkbox"]:checked:after {
-	left: calc(100% - 1.5em);
-}
-
-select {
-	width: 200px;
-	height: 25px;
-	font-family: 'Montserrat', 'Segoe UI', sans-serif;
-	font-size: 0.7em;
-	padding: 0px 8px;
-	cursor: pointer;
-}
-
 .hidden {
 	display: none !important;
 }
 
-#fade_seconds {
-	margin: 10px;
-	font-size: 0.7em;
-	font-weight: 200;
-}
-
-select:focus,
-input:focus {
-	outline: none;
-}
-
-#submit-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.preview {
-	margin-top: 30px;
-	display: flex;
-}
-
-.preview img {
-	width: 30px;
-	height: 30px;
-	margin-right: 10px;
-	cursor: pointer;
-}
-
-.preview {
-	margin-top: 30px;
-	display: flex;
-}
-
-.preview img {
-	width: 30px;
-	height: 30px;
-	margin-right: 10px;
-	cursor: pointer;
-}
-
-#submit-label {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.preview {
-	margin-top: 30px;
-	display: flex;
-}
-
-.preview img {
-	width: 30px;
-	height: 30px;
-	margin-right: 10px;
-	cursor: pointer;
-}
-
-.preview {
-	margin-top: 30px;
-	display: flex;
-}
-
-.preview img {
-	width: 30px;
-	height: 30px;
-	margin-right: 10px;
-	cursor: pointer;
-}
-
-#example {
-	margin: 25px 0px;
-	margin-top: 10px;
-	padding: 1rem;
-	border-radius: 15px;
-	overflow: hidden;
-	color: white;
-	font-weight: 800;
-	word-break: break-word;
-	transition: background-color .3s ease-in-out;
-}
-
-#example.white {
-	background-color: white;
-}
-
-#example .user_info {
-	display: inline-block;
-}
-
-#example .badge {
-	vertical-align: middle;
-	border-radius: 10%;
-}
-
-#example .cheer_bits {
-	color: rgb(189, 98, 255);
-	font-size: 0.6em;
-	-webkit-text-stroke: 1px black;
-}
-
-#example .emote {
-	vertical-align: middle;
-}
-
-#example .emoji {
-	vertical-align: middle;
-}
-
-input[type="submit"] {
-	width: 100px;
-	height: 35px;
-	border: none;
-	border-radius: 5px;
-	font-family: 'Montserrat', 'Segoe UI', sans-serif;
-	font-size: 0.8em;
-	font-weight: 500;
-	cursor: pointer;
-	opacity: .7;
-	transition: opacity .3s;
-}
-
-
-input[type="button"] {
-	max-width: 138px;
-	height: 25px;
-	padding-left: 10px;
-	padding-right: 10px;
-	border: none;
-	border-radius: 5px;
-	color: rgb(30, 30, 30);
-	font-family: 'Montserrat', 'Segoe UI', sans-serif;
-	font-size: 0.6em;
-	font-weight: 500;
-	cursor: pointer;
-	opacity: .7;
-	transition: opacity .3s;
-	text-align: center;
-}
-
-input[type="submit"]:hover,
-input[type="button"]:hover {
-	opacity: 1;
-}
-
-input[type="tag"] {
-	width: 72px;
-	height: 25px;
-	border: none;
-	border-radius: 5px;
-	font-family: 'Montserrat', 'Segoe UI', sans-serif;
-	font-size: 0.6em;
-	font-weight: 500;
-	opacity: .62;
-	transition: opacity .3s;
-	text-align: center;
-}
-
+/**/	
 
 #loading-icon {
 	border: 8px solid #f3f3f3; /* Light grey */
@@ -430,12 +132,13 @@ input[type="tag"] {
 }
 
 #using {
-	margin-top: 30px;
-	width: 90%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
+	gap: .25rem;
+	margin-top: 1rem;
+	width: 100%;
 }
 
 #using-text {
@@ -443,7 +146,16 @@ input[type="tag"] {
 	text-align: center;
 }
 
-#channels {
+#using-card-space {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+#channel-cards-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: .25rem;
+	margin-top: 1rem;
 	position: relative;
 	width: 90%;
 	margin: 30px;
@@ -452,16 +164,26 @@ input[type="tag"] {
 	border-radius: 15px;
 	background-color: rgb(22, 22, 22);
 	box-shadow: 2px 2px 10px 2px black;
+}
+
+.search-wrapper {
 	display: flex;
-	flex-wrap: wrap;
-	align-content: center;
-	justify-content: space-evenly;
+	flex-direction: column;
+	gap: .25rem;
+	margin: 10px;
+	padding: 10px;
+	font-size: 0.7em;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+input {
+	border-radius: 5px;
+	font-size: 1rem;
 }
 
 .channel-card {
-	height: fit-content;
-	width: 20%;
-	position: relative;
 	margin: 10px;
 	padding: 10px;
 	font-size: 0.7em;
@@ -470,7 +192,6 @@ input[type="tag"] {
 	box-shadow: 2px 2px 10px 2px black;	
 	display: flex;
 	flex-direction: row;
-	align-items: center;
 	justify-content: space-between;
 }
 
@@ -486,7 +207,7 @@ input[type="tag"] {
 	cursor: pointer;
 }
 
-.channel-card .channel-info{
+.channel-card .channel-info {
 	display:flex;
 	flex-wrap:wrap;
 	flex-direction:row;
@@ -494,7 +215,7 @@ input[type="tag"] {
 	align-items: center;
 }
 
-.channel-card:hover #twitch-popout{
+.channel-card:hover .twitch-popout {
 	display:block;
   	animation-name: twitch-popout;
   	animation-duration: .25s;
@@ -506,28 +227,27 @@ input[type="tag"] {
 	to  {left:0px; top:0px; opacity: 1;}
 }
 
-#pfp {
-	margin-right: 20px;
-}
-
-/* #pfp:hover {
-	opacity: .62;
-	transition: opacity .3s;
-} */
-
-#broadcaster-pfp {
+.live-channel-profile-image, .dead-channel-profile-image {
 	border-radius: 100%;
 	max-width: 50px;
 	max-height: 50px;
 }
 
-.pulse-ring {
+.live-channel-profile {
+	margin-right: 20px;
 	width: 50px;
     height: 50px;            
     position: relative;
 	border: 2px solid red;
 	border-radius: 50%;
 	animation: pulse 2s infinite;
+}
+
+.dead-channel-profile {
+	margin-right: 20px;
+	width: 50px;
+    height: 50px;            
+    position: relative;
 }
 
 @keyframes pulse {
@@ -547,18 +267,18 @@ input[type="tag"] {
 	}
 }
 
-#channel-name-label {
+.channel-name {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-#twitch-popout{
+.twitch-popout{
 	display:none;
 	justify-content:center;
 	align-items: center;
 }
 
-#twitch-logo{
+.twitch-logo{
 	padding-top: 10px;
 	width:30px;
 }
