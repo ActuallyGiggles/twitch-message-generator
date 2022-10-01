@@ -388,7 +388,7 @@ onReady(async () => {
 	generateInitialHtml()
 
 	searchInput.addEventListener("input", e => {
-		const value = e.target.value
+		const value = e.target.value.toLowerCase()
 		channelCards.forEach(card => {
 			const isVisible = card.Name.includes(value)
 			card.Card.classList.toggle("hidden", !isVisible)
