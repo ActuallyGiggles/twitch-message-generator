@@ -1,13 +1,13 @@
-let DEBUG = false;
-
-let channelName = "";
-let message = "";
-let channels = {};
-let liveChannels = {};
-let channelsJson = {};
-let channelIds = {};
-let emotes = [];
-let channelCards = [];
+const loading = document.getElementById("loading");
+const channelCardsContainer = document.getElementById("channel-cards-container")
+const searchInput = document.querySelector("[channel-search]")
+const channelCardTemplate = document.querySelector("[channel-card-template]")
+const result = document.getElementById("result");
+const using = document.getElementById("using");
+const usingCardSpace = document.getElementById("using-card-space")
+const apiError = document.getElementById("api-error");
+const description = document.getElementById("description");
+const donation = document.getElementById("donation");
 
 const homeUrl = "https://actuallygiggles.localtonet.com"
 const markovUrl = "https://actuallygiggles.localtonet.com/get-sentence?channel="
@@ -15,42 +15,10 @@ const channelsUrl = "https://actuallygiggles.localtonet.com/tracked-channels"
 const liveUrl = "https://actuallygiggles.localtonet.com/live-channels"
 const emotesUrl = "https://actuallygiggles.localtonet.com/tracked-emotes"
 
-const onReady = (callback) => {
-	if (document.readyState != "loading") {
-		callback();
-	}
-	else if (document.addEventListener) {
-		document.addEventListener("DOMContentLoaded", callback);
-	}
-	else {
-		document.attachEvent("onreadystatechange", function() {
-			if (document.readyState == "complete") {
-				callback();
-			}
-		});
-	}
-};
-
-// https://stackoverflow.com/questions/111529/how-to-create-query-parameters-in-javascript
-function encodeQueryData(data) { 
-    const ret = [];
-    for (let d in data) {
-        if (data[d]) {
-            ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-		}
-    }
-    return ret.join('&');
-}
-
-const getJson = (markovUrl) => fetch(markovUrl, { method: "GET" }).then(async (response) => {
-	const contentType = response.headers.get("Content-Type");
-	if (contentType.includes("text/plain")) {
-		const text = await response.text();
-		return text;
-	} else if (contentType.includes("application/json")) {
-		return await response.json();
-	}
-}).catch((error) => console.error(error));
+let channels = {};
+let liveChannels = {};
+let channelCards = [];
+let emotes = [];
 
 async function generateInitialHtml() {
 	if (channels == null || channels == "") {
@@ -63,97 +31,50 @@ async function generateInitialHtml() {
 
 		apiError.classList.remove("hidden")
 	}
-
-	for (const channel of channels) {
+	for (let index = 0; index < Object.keys(channels).length; index++) {
+		const channel = Object.values(channels)[index];
 		const name = channel.login
 		const displayName = channel.display_name
-		const profileImage = channel.profile_image_url
-		
-		channelsJson[displayName] = name
+		const profileImageUrl = channel.profile_image_url
 
-		// Create channel card
-		const channelCard = document.createElement("div")
-		channelCard.classList.add("channel-card")
+		const card = channelCardTemplate.content.cloneNode(true).children[0]
+		const channelInfo = card.querySelector(".channel-info")
+		const liveChannelProfile = card.querySelector(".live-channel-profile")
+		const liveChannelProfileImage = card.querySelector(".live-channel-profile-image")
+		const deadChannelProfile = card.querySelector(".dead-channel-profile")
+		const deadChannelProfileImage = card.querySelector(".dead-channel-profile-image")
+		const channelName = card.querySelector(".channel-name")
+		const twitchPopoutLink = card.querySelector(".twitch-popout-link")
 
-		// Create channel info
-		const channelInfo = document.createElement("div")
-		channelInfo.classList.add("channel-info")
-
-		// Create pfp
-		const pfp = document.createElement("div")
-		pfp.id = "pfp"
-
-		// Create pulse ring
-		const pulse = document.createElement("div")
-		pulse.classList.add("pulse-ring")
-
-		// Create pfp image
-		const image = new Image()
-		image.src = profileImage
-		image.id = "broadcaster-pfp"
-		// image.target= '_blank';
-		// image.onclick = function() {
-		// 	window.location.href = 'https://www.twitch.tv/' + name
-		// }
+		card.id = displayName
+		channelInfo.id = displayName
+		liveChannelProfile.id = displayName
+		deadChannelProfile.id = displayName
+		channelName.textContent = displayName
+		channelName.id = displayName
+		twitchPopoutLink.href = `https://twitch.tv/${name}`
 
 		if (liveChannels[name]) {
-			// Append pulse to image
-			pulse.appendChild(image)
-
-			// Append pulse to pfp
-			pfp.appendChild(pulse)
+			liveChannelProfileImage.src = profileImageUrl
+			liveChannelProfileImage.id = displayName
+			liveChannelProfile.classList.remove("hidden")
 		} else {
-			// Append image to pfp
-			pfp.appendChild(image)
+			deadChannelProfileImage.src = profileImageUrl
+			deadChannelProfileImage.id = displayName
+			deadChannelProfile.classList.remove("hidden")
 		}
 
-		// Create channel label
-		const channelNameLabel = document.createElement("div")
-		channelNameLabel.id = "channel-name-label"
-		const channelNameText = document.createTextNode(`${displayName}`)
-		channelNameLabel.appendChild(channelNameText)
+		channelCardsContainer.append(card)
 
-		// Append pfp, pulse, and label to channel info
-		channelInfo.appendChild(pfp)
-		channelInfo.appendChild(channelNameLabel)
-
-		// Create twitch popout
-		const twitchPopout = document.createElement("div")
-		twitchPopout.id = "twitch-popout"
-
-		// Create twitch link
-		const twitchLink = document.createElement("a")
-		twitchLink.href = 'https://www.twitch.tv/' + name
-
-		// Create twitch logo image
-		const twitchLogo = new Image()
-		twitchLogo.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Twitch_Glitch_Logo_Purple.svg/878px-Twitch_Glitch_Logo_Purple.svg.png"
-		twitchLogo.id = "twitch-logo"
-		twitchLogo.target = "_blank"
-		twitchLogo.onclick = function() {
-			window.location.href = 'https://www.twitch.tv/' + name
-		}
-		twitchLink.appendChild(twitchLogo)
-
-		// Append twitch logo image to twitch popout
-		twitchPopout.appendChild(twitchLink)
-
-		// Append channel info and twitch popout to channel card
-		channelCard.appendChild(channelInfo)
-		channelCard.appendChild(twitchPopout)
-
-		var channelCardClone = channelCard.cloneNode(true)
 		channelCards.push({
 			Name: name,
-			Card: channelCardClone
+			Card: card
 		})
-
-		channelsTracked.appendChild(channelCard)
-		channelsTracked.classList.remove("hidden");
 	}
+	channelCardsContainer.classList.remove("hidden");
 }
 
-async function fetchMarkovMessage(event, cName) {
+async function fetchMarkovMessage(event, channelName) {
 	scroll(0,0)
 	if (event != null) {
 		event.preventDefault();
@@ -166,20 +87,16 @@ async function fetchMarkovMessage(event, cName) {
 	loading.classList.remove("hidden");
 
 	let urlParameters = {};
-	if (cName == "") {
-		urlParameters["channel"] = channelsJson[channelName];
+	if (channelName == "") {
+		urlParameters["channel"] = channels[channelName].login;
 	} else {
-		urlParameters["channel"] = cName
+		urlParameters["channel"] = channelName
 	}
-
-	if (DEBUG) {
-		urlParameters["debug"] = true;
-	}
-
-	getChannelEmotes(urlParameters["channel"])
 
 	let urlParameterString = `${window.location.pathname}?${encodeQueryData(urlParameters)}`;
 	window.history.pushState(null, "", urlParameterString);
+
+	getChannelEmotes(channelName)
 
 	const json = await getJson(`${markovUrl}${urlParameters["channel"]}`);
 
@@ -200,10 +117,10 @@ async function fetchMarkovMessage(event, cName) {
 
 	console.log("original message is -> " + message)
 
-	replaceEmotes(isError)
+	replaceEmotes(channelName, isError)
 }
 
-function replaceEmotes(isError) {
+function replaceEmotes(channelName, isError) {
 	words = message.split(" ")
 	var newMessage = ""
 	var url = ""
@@ -263,16 +180,22 @@ function replaceEmotes(isError) {
 		resultObj.appendChild(err)
 	}
 	
-	generateHtml(isError, resultObj)
+	generateResultHtml(channelName, resultObj, isError)
 }
 
-function generateHtml(isError, resultObj) {
+function generateResultHtml(channelName, resultObj, isError) {
 	result.appendChild(resultObj);
 
 	if(isError) {
 		result.style.backgroundColor = "IndianRed";
 	} else {
 		result.style.backgroundColor = "";
+	}
+
+	var child = using.lastElementChild; 
+	while (child) {
+		using.removeChild(child);
+		child = using.lastElementChild;
 	}
 
 	using.textContent = ""
@@ -282,10 +205,14 @@ function generateHtml(isError, resultObj) {
 	usingTextDiv.appendChild(usingText)
 	using.appendChild(usingTextDiv)
 
+	usingCardSpace.removeChild(usingCardSpace.childNodes[0])
+
 	for (const card of channelCards) {
 		if (card.Name == channelName.toLowerCase()) {
-			card.Card.id = "using-card"
-			using.appendChild(card.Card)
+			var cardClone = card.Card.cloneNode(true)
+			console.log(cardClone)
+			usingCardSpace.appendChild(cardClone)
+			using.appendChild(usingCardSpace)
 			break
 		}
 	}
@@ -295,70 +222,45 @@ function generateHtml(isError, resultObj) {
 	using.classList.remove("hidden")
 }
 
-const loading = document.getElementById("loading");
-const channelsTracked = document.getElementById("channels");
-const result = document.getElementById("result");
-const using = document.getElementById("using");
-const apiError = document.getElementById("api-error");
-const description = document.getElementById("description");
-const donation = document.getElementById("donation");
-
-onReady(async () => {	
-	await getChannelInfo()
-	await getLiveInfo()
-
-	generateInitialHtml()
-
-	getGlobalEmotes()
-
-	document.addEventListener('click', function (event) {
-		if (event.target.className == "channel-card") {
-			channelName = event.target.innerText
-			fetchMarkovMessage(event, "")
-		}
-		
-		if (event.target.offsetParent.className == "channel-card") {
-			channelName = event.target.offsetParent.innerText
-			fetchMarkovMessage(event, "")
-		}
-	})
-
-	const searchParameters = new URLSearchParams(window.location.search);
-	if(searchParameters.get("debug")) {
-		DEBUG = true;
+const getJson = (markovUrl) => fetch(markovUrl, { method: "GET" }).then(async (response) => {
+	const contentType = response.headers.get("Content-Type");
+	if (contentType.includes("text/plain")) {
+		const text = await response.text();
+		return text;
+	} else if (contentType.includes("application/json")) {
+		return await response.json();
 	}
+}).catch((error) => console.error(error));
 
-	if(searchParameters.has("channel")) {
-		channelName = searchParameters.get("channel");
-		fetchMarkovMessage(null, channelName);
-	}
-});
+function encodeQueryData(data) { 
+    const ret = [];
+    for (let d in data) {
+        if (data[d]) {
+            ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+		}
+    }
+    return ret.join('&');
+}
 
-async function getChannelInfo() {
-	channels = await getJson(`${channelsUrl}`)
-
-	channels.sort((a, b) => a.login.localeCompare(b.login))
-
-	for (let index = 0; index < channels.length; index++) {
-		const channel = channels[index];
-		
-		channelIds[channel.login] = channel.id
+async function getChannelsInfo() {
+	const chans = await getJson(`${channelsUrl}`)
+	chans.sort((a, b) => a.login.localeCompare(b.login))
+	for (let index = 0; index < chans.length; index++) {
+		const channel = chans[index];
+		channels[channel.display_name] = channel
 	}
 }
 
 async function getLiveInfo() {
-	live = await getJson(`${liveUrl}`)
-
+	var live = await getJson(`${liveUrl}`)
 	for (let index = 0; index < live.length; index++) {
 		const channel = live[index];
-		
 		liveChannels[channel.Name] = channel.Live
 	}
 }
 
 async function getGlobalEmotes() {
-	var emotesBulk
-	emotesBulk = await getJson(emotesUrl)
+	var emotesBulk = await getJson(emotesUrl)
 
 	var globalEmotes = emotesBulk["global"]
 	for (let index = 0; index < globalEmotes.length; index++) {
@@ -367,9 +269,9 @@ async function getGlobalEmotes() {
 	}
 }
 
-function getChannelEmotes(user) {
-	var id = channelIds[user]
-	get7tvEmotes(user)
+function getChannelEmotes(channelName) {
+	var id = channels[channelName].id
+	get7tvEmotes(channelName.toLowerCase() )
 	getBttvEmotes(id)
 	getFfzEmotes(id)
 }
@@ -462,3 +364,56 @@ async function getFfzEmotes(id) {
         console.log(`getFfzEmotes failed for ${id}`.bgRed);
     }
 }
+
+const onReady = (callback) => {
+	if (document.readyState != "loading") {
+		callback();
+	}
+	else if (document.addEventListener) {
+		document.addEventListener("DOMContentLoaded", callback);
+	}
+	else {
+		document.attachEvent("onreadystatechange", function() {
+			if (document.readyState == "complete") {
+				callback();
+			}
+		});
+	}
+};
+
+onReady(async () => {	
+	await getChannelsInfo()
+	await getLiveInfo()
+
+	generateInitialHtml()
+
+	searchInput.addEventListener("input", e => {
+		const value = e.target.value
+		channelCards.forEach(card => {
+			const isVisible = card.Name.includes(value)
+			card.Card.classList.toggle("hidden", !isVisible)
+		});
+	})
+
+	getGlobalEmotes()
+	
+	document.addEventListener('click', function (event) {
+		if (event.target.className == "channel-card"
+		|| event.target.className == "channel-info"
+		|| event.target.className == "live-channel-profile"
+		|| event.target.className == "dead-channel-profile"
+		|| event.target.className == "live-channel-profile-image"
+		|| event.target.className == "dead-channel-profile-image"
+		|| event.target.className == "channel-name") {
+			var channelName = event.target.id
+			//console.log(channelName)
+			fetchMarkovMessage(event, channelName)
+		}
+	})
+
+	const searchParameters = new URLSearchParams(window.location.search);
+	if(searchParameters.has("channel")) {
+		var channelName = searchParameters.get("channel");
+		fetchMarkovMessage(null, channelName);
+	}
+});
