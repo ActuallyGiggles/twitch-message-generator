@@ -162,6 +162,90 @@ input[type="tag"] {
 	margin: 0;
 }
 
+.dot-windmill-page {
+	position: relative;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	background-color: rgb(226, 206, 255);
+	color: rgb(169, 112, 255);
+	transform-origin: 50% 150%;
+	animation: dotWindmill 2s infinite linear;
+  }
+  
+  .dot-windmill-page::before, .dot-windmill-page::after {
+	content: '';
+	display: inline-block;
+	position: absolute;
+  }
+  
+  .dot-windmill-page::before {
+	left: -28.66px;
+	top: 45px;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	background-color: rgb(121, 37, 248);
+	color: rgb(169, 112, 255);
+  }
+  
+  .dot-windmill-page::after {
+	left: 28.66px;
+	top: 45px;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	background-color: rgb(169, 112, 255);
+	color: rgb(169, 112, 255);
+  }
+
+.dot-windmill {
+  position: relative;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: rgb(226, 206, 255);
+  color: rgb(169, 112, 255);
+  transform-origin: 50% 150%;
+  animation: dotWindmill 2s infinite linear;
+}
+
+.dot-windmill::before, .dot-windmill::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+}
+
+.dot-windmill::before {
+  left: -8.66px;
+  top: 15px;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: rgb(121, 37, 248);
+  color: rgb(169, 112, 255);
+}
+
+.dot-windmill::after {
+  left: 8.66px;
+  top: 15px;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: rgb(169, 112, 255);
+  color: rgb(169, 112, 255);
+}
+
+@keyframes dotWindmill {
+  0% {
+    transform: rotateZ(0deg) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: rotateZ(720deg) translate3d(0, 0, 0);
+  }
+}
+
 @keyframes spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
@@ -231,11 +315,17 @@ input[type="tag"] {
 }
 
 .search-wrapper {
-	display: flex;
-	flex-direction: column;
 	margin: 10px;
 	padding: 10px;
 	font-size: 0.7em;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-content: center;
+}
+
+.search-wrapper label {
+	margin: auto;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
