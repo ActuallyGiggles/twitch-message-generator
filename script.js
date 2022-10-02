@@ -7,6 +7,7 @@ const result = document.getElementById("result");
 const using = document.getElementById("using");
 const usingCardSpace = document.getElementById("using-card-space")
 const apiError = document.getElementById("api-error");
+const limiter = document.getElementById("limiter")
 const description = document.getElementById("description");
 const donation = document.getElementById("donation");
 
@@ -241,6 +242,10 @@ function encodeQueryData(data) {
 
 async function getChannelsInfo() {
 	const chans = await getJson(`${channelsUrl}`)
+	if (chans.hasOwnProperty("Error")) {
+		limiter.classList.remove("hidden")
+		return
+	}
 	chans.sort((a, b) => a.login.localeCompare(b.login))
 	for (let index = 0; index < chans.length; index++) {
 		const channel = chans[index];
@@ -249,7 +254,11 @@ async function getChannelsInfo() {
 }
 
 async function getLiveInfo() {
-	var live = await getJson(`${liveUrl}`)
+	const live = await getJson(`${liveUrl}`)
+	if (live.hasOwnProperty("Error")) {
+		limiter.classList.remove("hidden")
+		return
+	}
 	for (let index = 0; index < live.length; index++) {
 		const channel = live[index];
 		liveChannels[channel.Name] = channel.Live
@@ -257,8 +266,11 @@ async function getLiveInfo() {
 }
 
 async function getGlobalEmotes() {
-	var emotesBulk = await getJson(emotesUrl)
-
+	const emotesBulk = await getJson(emotesUrl)
+	if (emotesBulk.hasOwnProperty("Error")) {
+		limiter.classList.remove("hidden")
+		return
+	}
 	var globalEmotes = emotesBulk["global"]
 	for (let index = 0; index < globalEmotes.length; index++) {
 		const emote = globalEmotes[index];
@@ -367,8 +379,6 @@ const onReady = (callback) => {
 };
 
 onReady(async () => {	
-
-
 	await getChannelsInfo()
 	await getLiveInfo()
 
