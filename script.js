@@ -19,7 +19,7 @@ const emotesUrl = "https://actuallygiggles.localtonet.com/tracked-emotes"
 let channels = {};
 let liveChannels = {};
 let channelCards = [];
-let emotes = [];
+let emotes = new Map()
 
 async function generateInitialHtml() {
 	if (channels == null || channels == "") {
@@ -126,9 +126,8 @@ async function fetchMarkovMessage(event, channelName) {
 }
 
 function replaceEmotes(channelName, isError) {
-	words = message.split(" ")
+	var words = message.split(" ")
 	var newMessage = ""
-	var url = ""
 	var resultObj = document.createElement("div")
 	var onlyWords = true
 
@@ -136,19 +135,13 @@ function replaceEmotes(channelName, isError) {
 		for (let index = 0; index < words.length; index++) {
 			const word = words[index];
 			var isEmote = false
-			
-			for (let index = 0; index < emotes.length; index++) {
-				const emote = emotes[index];	
-				const emoteName = emote["Name"]
-				const emoteUrl = emote["Url"]
-	
-				if (word == emoteName) {
-					isEmote = true
-					url = emoteUrl
-					break
-				} else {
-					isEmote = false
-				}
+
+			var url = emotes.get(word)
+
+			if (url != undefined) {
+				isEmote = true
+			} else {
+				isEmote = false
 			}
 
 			if (!isEmote) {
@@ -215,7 +208,6 @@ function generateResultHtml(channelName, resultObj, isError) {
 	for (const card of channelCards) {
 		if (card.Name == channelName.toLowerCase()) {
 			var cardClone = card.Card.cloneNode(true)
-			console.log(cardClone)
 			usingCardSpace.appendChild(cardClone)
 			using.appendChild(usingCardSpace)
 			break
@@ -270,7 +262,7 @@ async function getGlobalEmotes() {
 	var globalEmotes = emotesBulk["global"]
 	for (let index = 0; index < globalEmotes.length; index++) {
 		const emote = globalEmotes[index];
-		emotes.push(emote)
+		emotes.set(emote.Name, emote.Url)
 	}
 }
 
@@ -291,10 +283,7 @@ async function get7tvEmotes(user) {
         for (const emote of responseJson) {
 			var name = emote.name
 			var url = emote.urls[3][1]
-            emotes.push({
-				Name: name,
-				Url: url
-			});
+			emotes.set(name, url)
         }
     } catch (err) {
         console.log('get7tvEmotes failed'.bgRed);
@@ -312,19 +301,13 @@ async function getBttvEmotes(id) {
             const emote = responseJson.channelEmotes[index];
 			var name = emote.code
 			var url = `https://cdn.betterttv.net/emote/${emote.id}/3x`	
-			emotes.push({
-				Name: name,
-				Url: url
-			});
+			emotes.set(name, url)
         }
         for (let index = 0; index < responseJson.sharedEmotes.length; index++) {
 			const emote = responseJson.sharedEmotes[index];
 			var name = emote.code
 			var url = `https://cdn.betterttv.net/emote/${emote.id}/3x`
-			emotes.push({
-				Name: name,
-				Url: url
-			});
+			emotes.set(name, url)
         }
     } catch (err) {
         console.log(`getBttvEmotes failed for ${id}`.bgRed);
@@ -360,10 +343,7 @@ async function getFfzEmotes(id) {
 						break;
 				}
 			}
-			emotes.push({
-				Name: name,
-				Url: urlChosen
-			});
+			emotes.set(name, urlChosen)
         }
     } catch (err) {
         console.log(`getFfzEmotes failed for ${id}`.bgRed);
