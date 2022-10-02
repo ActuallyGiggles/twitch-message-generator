@@ -1,4 +1,5 @@
-const loading = document.getElementById("loading");
+const loadingPage = document.getElementById("loading-page")
+const loadingResult = document.getElementById("loading-result");
 const channelCardsContainer = document.getElementById("channel-cards-container")
 const searchInput = document.querySelector("[channel-search]")
 const channelCardTemplate = document.querySelector("[channel-card-template]")
@@ -22,7 +23,7 @@ let emotes = [];
 
 async function generateInitialHtml() {
 	if (channels == null || channels == "") {
-		loading.classList.add("hidden")
+		loadingResult.classList.add("hidden")
 		result.classList.add("hidden")
 		channelsTracked.classList.add("hidden")
 		using.classList.add("hidden")
@@ -31,6 +32,8 @@ async function generateInitialHtml() {
 
 		apiError.classList.remove("hidden")
 	}
+
+
 	for (let index = 0; index < Object.keys(channels).length; index++) {
 		const channel = Object.values(channels)[index];
 		const name = channel.login
@@ -72,6 +75,8 @@ async function generateInitialHtml() {
 		})
 	}
 	channelCardsContainer.classList.remove("hidden");
+
+	loadingPage.classList.add("hidden")
 }
 
 async function fetchMarkovMessage(event, channelName) {
@@ -84,7 +89,7 @@ async function fetchMarkovMessage(event, channelName) {
 
 	result.textContent = "";
 	result.classList.add("hidden")
-	loading.classList.remove("hidden");
+	loadingResult.classList.remove("hidden");
 
 	let urlParameters = {};
 	if (channelName == "") {
@@ -217,7 +222,7 @@ function generateResultHtml(channelName, resultObj, isError) {
 		}
 	}
 
-	loading.classList.add("hidden");
+	loadingResult.classList.add("hidden");
 	result.classList.remove("hidden");
 	using.classList.remove("hidden")
 }
@@ -382,6 +387,8 @@ const onReady = (callback) => {
 };
 
 onReady(async () => {	
+
+
 	await getChannelsInfo()
 	await getLiveInfo()
 
