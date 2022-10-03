@@ -9,6 +9,8 @@ const usingCardSpace = document.getElementById("using-card-space")
 const apiError = document.getElementById("api-error");
 const limiter = document.getElementById("limiter")
 const description = document.getElementById("description");
+const socials = document.getElementById("socials")
+const suggestedStreamers = document.getElementById("suggested-streamers")
 const donation = document.getElementById("donation");
 
 const homeUrl = "https://actuallygiggles.localtonet.com"
@@ -34,7 +36,6 @@ async function generateInitialHtml() {
 		apiError.classList.remove("hidden")
 	}
 
-
 	for (let index = 0; index < Object.keys(channels).length; index++) {
 		const channel = Object.values(channels)[index];
 		const name = channel.login
@@ -50,13 +51,14 @@ async function generateInitialHtml() {
 		const channelName = card.querySelector(".channel-name")
 		const twitchPopoutLink = card.querySelector(".twitch-popout-link")
 
-		card.id = displayName
-		channelInfo.id = displayName
-		liveChannelProfile.id = displayName
-		deadChannelProfile.id = displayName
+		card.id = name
+		channelInfo.id = name
+		liveChannelProfile.id = name
+		deadChannelProfile.id = name
 		channelName.textContent = displayName
-		channelName.id = displayName
+		channelName.id = name
 		twitchPopoutLink.href = `https://twitch.tv/${name}`
+		twitchPopoutLink.target = "_blank"
 
 		if (liveChannels[name]) {
 			liveChannelProfileImage.src = profileImageUrl
@@ -78,6 +80,8 @@ async function generateInitialHtml() {
 	channelCardsContainer.classList.remove("hidden");
 
 	loadingPage.classList.add("hidden")
+	suggestedStreamers.classList.remove("hidden")
+	socials.classList.remove("hidden")
 }
 
 async function fetchMarkovMessage(event, channelName) {
@@ -86,7 +90,9 @@ async function fetchMarkovMessage(event, channelName) {
 		event.preventDefault();
 	}
 
-	document.title = "Twitch Msg Gen • " + channelName;
+	displayName = channels[channelName].display_name
+
+	document.title = "Twitch Msg Gen • " + displayName;
 
 	result.textContent = "";
 	result.classList.add("hidden")
@@ -102,9 +108,9 @@ async function fetchMarkovMessage(event, channelName) {
 	let urlParameterString = `${window.location.pathname}?${encodeQueryData(urlParameters)}`;
 	window.history.pushState(null, "", urlParameterString);
 
-	getChannelEmotes(channelName)
-
 	const json = await getJson(`${markovUrl}${urlParameters["channel"]}`);
+
+	getChannelEmotes(channelName)
 
 	var isError
 
@@ -241,15 +247,31 @@ function encodeQueryData(data) {
 }
 
 async function getChannelsInfo() {
-	const chans = await getJson(`${channelsUrl}`)
-	if (chans.hasOwnProperty("Error")) {
-		limiter.classList.remove("hidden")
-		return
-	}
-	chans.sort((a, b) => a.login.localeCompare(b.login))
-	for (let index = 0; index < chans.length; index++) {
-		const channel = chans[index];
-		channels[channel.display_name] = channel
+	var chans
+	const a = new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(false);
+		}, 5 * 1000);
+	});
+	const b = new Promise(async (resolve, reject) => {
+		chans = await getJson(`${channelsUrl}`)
+		resolve(true);
+	});
+	const APIOnlineBool = await Promise.race([a, b]);
+	if (APIOnlineBool) {
+		if (chans.hasOwnProperty("Error")) {
+			limiter.classList.remove("hidden")
+			return
+		}
+		chans.sort((a, b) => a.login.localeCompare(b.login))
+		for (let index = 0; index < chans.length; index++) {
+			const channel = chans[index];
+			channels[channel.login] = channel
+		}
+	} else {
+		apiError.classList.remove("hidden")
+		loadingPage.classList.add("hidden")
+		donation.classList.add("hidden")
 	}
 }
 
@@ -280,7 +302,7 @@ async function getGlobalEmotes() {
 
 function getChannelEmotes(channelName) {
 	var id = channels[channelName].id
-	get7tvEmotes(channelName.toLowerCase() )
+	get7tvEmotes(channelName)
 	getBttvEmotes(id)
 	getFfzEmotes(id)
 }
@@ -403,7 +425,6 @@ onReady(async () => {
 		|| event.target.className == "dead-channel-profile-image"
 		|| event.target.className == "channel-name") {
 			var channelName = event.target.id
-			//console.log(channelName)
 			fetchMarkovMessage(event, channelName)
 		}
 	})

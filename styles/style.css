@@ -582,18 +582,23 @@ input {
 	font-weight: 600;
 }
 
+#suggested-streamers {
+	font-size: 0.7em;
+	font-weight: 300;
+	text-align: center;
+	margin: 30px;
+}
+
 #socials {
-	margin: 50px;
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+	justify-content: space-evenly;
+	width: 30%;
 }
 
 #socials img {
-	align-items: center;
-	padding: 30px;
-	padding-top: 10px;
+	width: 50px;
+	height: auto;
 }
 
 footer {
