@@ -266,6 +266,9 @@ async function getChannelsInfo() {
 		chans.sort((a, b) => a.login.localeCompare(b.login))
 		for (let index = 0; index < chans.length; index++) {
 			const channel = chans[index];
+			if (channel.login == "actuallygiggles") {
+				continue
+			}
 			channels[channel.login] = channel
 		}
 	} else {
