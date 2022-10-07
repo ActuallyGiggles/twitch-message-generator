@@ -258,23 +258,24 @@ async function getChannelsInfo() {
 		resolve(true);
 	});
 	const APIOnlineBool = await Promise.race([a, b]);
-	if (APIOnlineBool) {
-		if (chans.hasOwnProperty("Error")) {
-			limiter.classList.remove("hidden")
-			return
-		}
-		chans.sort((a, b) => a.login.localeCompare(b.login))
-		for (let index = 0; index < chans.length; index++) {
-			const channel = chans[index];
-			if (channel.login == "actuallygiggles") {
-				continue
-			}
-			channels[channel.login] = channel
-		}
-	} else {
+	
+	if (chans == null || !APIOnlineBool) {
 		apiError.classList.remove("hidden")
 		loadingPage.classList.add("hidden")
 		donation.classList.add("hidden")
+	}
+
+	if (chans.hasOwnProperty("Error")) {
+		limiter.classList.remove("hidden")
+		return
+	}
+	chans.sort((a, b) => a.login.localeCompare(b.login))
+	for (let index = 0; index < chans.length; index++) {
+		const channel = chans[index];
+		if (channel.login == "actuallygiggles") {
+			continue
+		}
+		channels[channel.login] = channel
 	}
 }
 
