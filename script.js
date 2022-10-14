@@ -54,19 +54,19 @@ async function generateInitialHtml() {
 		card.id = name
 		channelInfo.id = name
 		liveChannelProfile.id = name
+		liveChannelProfileImage.src = profileImageUrl
+		liveChannelProfileImage.id = name
 		deadChannelProfile.id = name
+		deadChannelProfileImage.src = profileImageUrl
+		deadChannelProfileImage.id = name
 		channelName.textContent = displayName
 		channelName.id = name
 		twitchPopoutLink.href = `https://twitch.tv/${name}`
 		twitchPopoutLink.target = "_blank"
 
 		if (liveChannels[name]) {
-			liveChannelProfileImage.src = profileImageUrl
-			liveChannelProfileImage.id = displayName
 			liveChannelProfile.classList.remove("hidden")
 		} else {
-			deadChannelProfileImage.src = profileImageUrl
-			deadChannelProfileImage.id = displayName
 			deadChannelProfile.classList.remove("hidden")
 		}
 
@@ -127,7 +127,7 @@ async function fetchMarkovMessage(event, channelName) {
 		isError = false
 	}
 
-	console.log("original message is -> " + message)
+	console.log(channelName + ": " + message)
 
 	replaceEmotes(channelName, isError)
 }
@@ -428,6 +428,7 @@ onReady(async () => {
 		|| event.target.className == "live-channel-profile-image"
 		|| event.target.className == "dead-channel-profile-image"
 		|| event.target.className == "channel-name") {
+			console.log(event.target.className + ": " + event.target.id)
 			var channelName = event.target.id
 			fetchMarkovMessage(event, channelName)
 		}
