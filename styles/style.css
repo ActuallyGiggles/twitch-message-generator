@@ -209,6 +209,7 @@ input[type="tag"] {
   color: rgb(169, 112, 255);
   transform-origin: 50% 150%;
   animation: dotWindmill 2s infinite linear;
+  margin: 10px
 }
 
 .dot-windmill::before, .dot-windmill::after {
