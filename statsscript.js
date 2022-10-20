@@ -11,7 +11,7 @@ const currentCountDiv = document.getElementById("markov_current_count")
 const peakIntakeDiv = document.getElementById("markov_peak_intake")
 const statsUrl = "https://actuallygiggles.localtonet.com/server-stats?access=security-omegalul"
 let statistics = {}
-
+asdfasdf
 const onReady = (callback) => {
 	if (document.readyState != "loading") {
 		callback();
