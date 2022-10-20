@@ -9,7 +9,7 @@ const writeModeDiv = document.getElementById("markov_write_mode")
 const timeUntilWriteDiv = document.getElementById("markov_time_until_write")
 const currentCountDiv = document.getElementById("markov_current_count")
 const peakIntakeDiv = document.getElementById("markov_peak_intake")
-const statsUrl = ""
+const statsUrl = "https://actuallygiggles.localtonet.com/server-stats?access=security-omegalul"
 let statistics = {}
 const onReady = (callback) => {
 	if (document.readyState != "loading") {
