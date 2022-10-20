@@ -85,6 +85,10 @@ a:hover {
 	display: none !important;
 }
 
+.tab {
+	padding-left: 30px;
+  }
+
 input[type="submit"] {
 	width: 100px;
 	height: 35px;
@@ -665,4 +669,49 @@ footer a {
 
 ::-webkit-scrollbar-track {
 	background: black;
+}
+
+/* Stats */
+
+#stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 30%);
+	justify-content: space-evenly;
+	gap: .25rem;
+	margin-top: 1rem;
+	width: 90%;
+	padding: 15px;
+	border-radius: 15px;
+	background-color: rgb(22, 22, 22);
+	box-shadow: 2px 2px 10px 2px black;
+}
+
+#stats h1 {
+	font-size: 1.2em;
+	font-weight: 500;
+	text-decoration: underline;
+	text-align: left;
+	margin-bottom: 10px;
+}
+
+#category {
+	margin: 10px;
+	display: flex;
+	flex-direction: column;
+	padding: 30px;
+	border-radius: 15px;
+	background-color: rgb(37, 37, 37);
+	box-shadow: 2px 2px 10px 2px black;
+}
+
+#category_entry {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	font-size: .7em;
+}
+
+#markov_peak_intake {
+	text-align: right;
 }

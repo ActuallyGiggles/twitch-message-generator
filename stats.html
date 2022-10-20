@@ -23,24 +23,65 @@
 
         <section>
             <div id="stats">
-                <div id="start_time"></div>
-                <div id="run_time"></div>
-                <div id="memory_usage">
-                    <div id="allocated"></div>
-                    <div id="total_allocated"></div>
-                    <div id="system"></div>
-                    <div id="num_gc"></div>
+                <div id="category">
+                    <h1>Time</h1>
+                    <div id="category_entry">
+                        <div id="time_start_label">Start Time:</div>
+                        <div id="time_start">-----</div>
+                    </div>
+                    <div id="category_entry">
+                        <div id="time_run_label">Uptime:</div>
+                        <div id="time_run">-----</div>
+                    </div>
                 </div>
-                <div id="write_mode"></div>
-                <div id="time_until_write"></div>
-                <div id="current_count"></div>
-                <div id="count_limit"></div>
-                <div id="peak_intake">
-                    <div id="chain"></div>
-                    <div id="amount"></div>
-                    <div id="time"></div>
+                <div id="category">
+                    <h1>Markov</h1>
+                    <div id="category_entry">
+                        <div id="markov_label">----------------</div>
+                        <div id="markov_time_until_label" class="hidden">Next Write:</div>
+                        <div id="markov_count_label" class="hidden">Message Intake:</div>
+                        <div id="markov_time_until_write"></div>
+                        <div id="markov_current_count">-----</div>
+                    </div>
+                    <div id="category_entry">
+                        <div id="markov_peak_label">Peak:</div>
+                        <div id="markov_peak_intake">-----</div>
+                    </div>
+                </div>
+                <div id="category">
+                    <h1>Memory</h1>
+                    <div id="category_entry">
+                        <div>Memory Allocated:</div>
+                        <div id="memory_allocated">-----</div>    
+                    </div>
+                    <div id="category_entry">
+                        <div>Average Allocation Speed:</span></div>
+                        <div id="memory_average_allocation_speed">-----</div>
+                    </div>
+                    <div id="category_entry">
+                        <div>System Memory:</div>
+                        <div id="memory_system">-----</div>    
+                    </div>
                 </div>
             </div>
         </section>
+
+        <h2 style="margin-top: 50px;">Not ActuallyGiggles?</h2>
+        <h3 style="margin-top: 50px; font-weight: lighter;">Congrats on finding this place! Now don't tell others. ;)</h3>
+    
+        <footer>
+            <div id="dev-links">
+                <p>Markov generator made by <a href="https://www.twitch.tv/ActuallyGiggles">ActuallyGiggles</a>
+                    <a href="https://github.com/ActuallyGiggles" target="_blank"><img class="github"  id="gitImage" src="img/github.png"></a>
+                </p>
+                <p>Website made with <span style='color:palevioletred'>&#10084;</span> by <a href="https://www.twitch.tv/GreenComfyTea">GreenComfyTea</a>
+                    <a href="https://github.com/GreenComfyTea" target="_blank"><img class="github"  id="gitImage" src="img/github.png"></a>
+                </p>
+                <p>Based on <a href="https://github.com/giambaJ/jChat">jChat</a> code by <a href="mailto:me@giambaj.it">giambaJ</a>
+                    <a href="https://github.com/giambaJ/jChat" target="_blank"><img class="github" id="gitImage" src="img/github.png"></a>
+                </p>
+            </div>
+            <p>This application is not affiliated with <a href="https://www.twitch.tv/" target="_blank">Twitch</a></p>
+        </footer>
     </body>
 </html>

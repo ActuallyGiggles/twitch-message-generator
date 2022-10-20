@@ -1,20 +1,14 @@
 const stats = document.getElementById("stats")
-const startTimeDiv = document.getElementById("start_time")
-const runTimeDiv = document.getElementById("run_time")
+const startTimeDiv = document.getElementById("time_start")
+const runTimeDiv = document.getElementById("time_run")
 const memoryUsageDiv = document.getElementById("memory_usage")
-const allocatedDiv = document.getElementById("allocated")
-const totalAllocatedDiv = document.getElementById("total_allocated")
-const systemDiv = document.getElementById("system")
-const numGCDiv = document.getElementById("num_gc")
-const writeModeDiv = document.getElementById("write_mode")
-const timeUntilWriteDiv = document.getElementById("time_until_write")
-const currentCountDiv = document.getElementById("current_count")
-const countLimitDiv = document.getElementById("count_limit")
-const peakIntakeDiv = document.getElementById("peak_intake")
-const chainDiv = document.getElementById("chain")
-const amountDiv = document.getElementById("amount")
-const timeDiv = document.getElementById("time")
-
+const allocatedDiv = document.getElementById("memory_allocated")
+const averageAllocationSpeedDiv = document.getElementById("memory_average_allocation_speed")
+const systemDiv = document.getElementById("memory_system")
+const writeModeDiv = document.getElementById("markov_write_mode")
+const timeUntilWriteDiv = document.getElementById("markov_time_until_write")
+const currentCountDiv = document.getElementById("markov_current_count")
+const peakIntakeDiv = document.getElementById("markov_peak_intake")
 const statsUrl = "http://actuallygiggles.localtonet.com/server-stats?access=security-omegalul"
 let statistics = {}
 
@@ -60,28 +54,64 @@ function generateHtml() {
     const countLimit = statistics["count_limit"]
     const peakIntake = statistics["peak_intake"]
 	
-	startTimeDiv.innerHTML = `Started at: ${startTime}`
-	runTimeDiv.innerHTML = `Run time: ${runTime}`
-	allocatedDiv.innerHTML = `Memory Allocated: ${memoryUsage["allocated"]}`
-	totalAllocatedDiv.innerHTML = `Total memory allocated: ${memoryUsage["total_allocated"]}`
-	systemDiv.innerHTML = `System memory obtained: ${memoryUsage["system"]}`
-	numGCDiv.innerHTML = `GC cycles: ${memoryUsage["num_gc"]}`
-	writeModeDiv.innerHTML = `Write mode: ${writeMode}`
+	startTimeDiv.innerHTML = `${rfc3339ToDate(startTime)}`
+	runTimeDiv.innerHTML = `${nanoToTime(runTime)}`
+
 	if (writeMode == "interval") {
-		timeUntilWriteDiv.innerHTML = `Time until next write: ${timeUntilWrite}`
+        currentCountDiv.classList.add("hidden")
+        const countLabel = document.getElementById("markov_count_label")
+        countLabel.classList.add("hidden")
+        const timeUntilLabel = document.getElementById("markov_time_until_label")
+        timeUntilLabel.classList.remove("hidden")
+        const label = document.getElementById("markov_label")
+        label.classList.add("hidden")
+
+		timeUntilWriteDiv.innerHTML = `${timeUntilWrite}`
 	} else {
-		currentCountDiv.innerHTML = `Current input count: ${currentCount}`
-		countLimitDiv.innerHTML = `Input count limit: ${countLimit}`
+        timeUntilWriteDiv.classList.add("hidden")
+        const countLabel = document.getElementById("markov_count_label")
+        countLabel.classList.remove("hidden")
+        const timeUntilLabel = document.getElementById("markov_time_until_label")
+        timeUntilLabel.classList.add("hidden")
+        const label = document.getElementById("markov_label")
+        label.classList.add("hidden")
+
+        var percentage = currentCount / countLimit * 100
+		currentCountDiv.innerHTML = `${percentage.toString().substring(0,2)}% (${currentCount}/${countLimit})`
 	}
-	chainDiv.innerHTML = `Peak intake chain: ${peakIntake["chain"]}`
-	amountDiv.innerHTML = `Peak intake amount: ${peakIntake["amount"]}`
-	timeDiv.innerHTML = `Peak intake time: ${peakIntake["time"]}`
+    
+	if (peakIntake["chain"] == "") {
+        var time = rfc3339ToDate(peakIntake["time"])
+        peakIntakeDiv.innerHTML = `[N/A, ${time.substring(0, 2)}h${time.substring(3, 5)}m, ${peakIntake["amount"]}]`
+    } else {
+        var time = rfc3339ToDate(peakIntake["time"])
+        peakIntakeDiv.innerHTML = `[${peakIntake["chain"]}, ${time.substring(0, 2)}h${time.substring(3, 5)}m, ${peakIntake["amount"]}]`
+    }
+
+	allocatedDiv.innerHTML = `${memoryUsage["allocated"]} MB`
+	averageAllocationSpeedDiv.innerHTML = `${(memoryUsage["total_allocated"]/(runTime/1000000000)).toString().substring(0, 2)} MB/s`
+	systemDiv.innerHTML = `${memoryUsage["system"]} MB`
+}
+
+function rfc3339ToDate(rfc) {
+    var year = rfc.substring(0, 4)
+    var month = rfc.substring(5, 7)
+    var day = rfc.substring(8, 10)
+    var time = rfc.substring(11, 16)
+    return `${time} ${day}-${month}-${year}`
+}
+
+function nanoToTime(nano) {
+    var minutes = nano/60000000000
+    var m = minutes % 60;
+    var h = (minutes-m)/60;
+    return (h < 10 ? "0" : "") + h.toString() + "h" + (m < 10 ? "0" : "") + m.toString().substring(0,2) + "m";
 }
 
 onReady(async () => {	
-	// await getStats()
+	await getStats()
 
-	// generateHtml()
+	generateHtml()
 	setInterval(async () => {
         await getStats()
 
