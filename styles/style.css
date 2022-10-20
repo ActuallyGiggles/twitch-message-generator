@@ -675,7 +675,7 @@ footer a {
 
 #stats {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, 30%);
+	grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
 	justify-content: space-evenly;
 	gap: .25rem;
 	margin-top: 1rem;
