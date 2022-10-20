@@ -1,4 +1,5 @@
 const stats = document.getElementById("stats")
+const startTimeDiv = document.getElementById("start_time")
 
 const statsUrl = "http://actuallygiggles.localtonet.com/server-stats?access=security-omegalul"
 let statistics = {}
@@ -33,11 +34,26 @@ async function getStats() {
     const stats = await getJson(`${statsUrl}`)
 
     statistics = stats
-
-    console.log(statistics)
 }
 
-onReady(() => {	
+function generateHtml() {
+    const startTime = statistics["start_time"]
+    const runTime = statistics["run_time"]
+    const memoryUage = statistics["memory_usage"]
+    const writeMode = statistics["write_mode"]
+    const TimeUntilWrite = statistics["time_until_write"]
+    const currentCount = statistics["current_count"]
+    const countLimit = statistics["write_count_limit"]
+    const peakIntake = statistics["peak_intake"]
+    const peakIntakeChain = peakIntake["chain"]
+    const peakIntakeAmount= peakIntake["amount"]
+    const peakIntakeTime = peakIntake["time"]
+
+    var startTimeText = document.createTextNode(`${startTime}`)
+    startTimeDiv.appendChild(startTimeText)
+}
+
+onReady(async () => {	
 	setInterval(async () => {
         await getStats()
 
