@@ -116,9 +116,15 @@ function generateHtml() {
 	systemDiv.innerHTML = `${memoryUsage["system"]} MB`
 
     var logsFormatted
+    var first = true
     for (let index = 0; index < logs.length; index++) {
         const log = logs[index];
-        logsFormatted = logsFormatted + "<br>"+ log
+        if (first) {
+            logsFormatted = log
+            first = false
+        } else {
+            logsFormatted = logsFormatted + "<br>"+ log
+        }
     }
     logsDiv.innerHTML = logsFormatted
 }
