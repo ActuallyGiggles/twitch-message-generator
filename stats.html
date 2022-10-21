@@ -28,61 +28,58 @@
         <div id="offline" class="hidden">Offline...</div>
 
         <section id="section" class="hidden">
-            <div id="stats">
-                <div id="category">
-                    <h1>Time</h1>
-                    <div id="category_entry">
-                        <div id="time_start_label">Start Time:</div>
-                        <div id="time_start">-----</div>
-                    </div>
-                    <div id="category_entry">
-                        <div id="time_run_label">Uptime:</div>
-                        <div id="time_run">-----</div>
-                    </div>
-                </div>
-                <div id="category">
-                    <h1>Markov</h1>
-                    <div id="category_entry">
-                        <div id="markov_label">-----</div>
-                        <div id="markov_time_until_label" class="hidden">Next Write:</div>
-                        <div id="markov_time_until_write"></div>
-                        <div id="markov_count_label" class="hidden">Message Intake:</div>
-                        <div id="markov_current_count">-----</div>
-                    </div>
-                    <div id="category_entry">
-                        <div id="markov_peak_label">Peak:</div>
-                        <div id="markov_peak_intake">-----</div>
-                    </div>
-                    <div id="category_entry">
-                        <div id="workers_label">Workers:</div>
-                        <div id="workers"></div>
-                    </div>
-                </div>
-                <div id="category">
-                    <h1>Memory</h1>
-                    <div id="category_entry">
-                        <div>Memory Allocated:</div>
-                        <div id="memory_allocated">-----</div>    
-                    </div>
-                    <div id="category_entry">
-                        <div>Average Allocation Speed:</span></div>
-                        <div id="memory_average_allocation_speed">-----</div>
-                    </div>
-                    <div id="category_entry">
-                        <div>System Memory:</div>
-                        <div id="memory_system">-----</div>    
-                    </div>
-                </div>
-            </div>
+            <h1>Time</h1>
+            <table>
+                <tr>
+                    <td><div>Start Time:</div><div class="data" id="time_start"></div></td>
+                </tr>
+                <tr>
+                    <td><div>Uptime:</div><div class="data" id="time_run"></div></td>
+                </tr>
+            </table>
+
+            <h1>Markov</h1>
+            <table>
+                <tr>
+                    <td id="markov_time_until_label"><div>Interval:</div><div class="data" id="markov_time_until_write"></div></td>
+                    <td id="markov_count_label"><div>Capacity:</div><div class="data" id="markov_current_count"></div></td>
+                </tr>
+                <tr>
+                    <td><div>Total:</div><div class="data" id="total_intake"></div></td>
+                </tr>
+                <tr>
+                    <td><div>Average:</div><div class="data" id="average_intake"></div></td>
+                </tr>
+                <tr>
+                    <td><div>Last:</div><div class="data" id="intake"></div></td>
+                </tr>
+                <tr>
+                    <td><div>Peak:</div><div class="data" id="markov_peak_intake"></div></td>
+                </tr>
+                <tr>
+                    <td><div>Workers:</div><div class="data" id="workers"></div></td>
+                </tr>
+            </table>
+
+            <h1>Memory</h1>
+            <table>
+                <tr>
+                    <td><div>Memory Allocated:</div><div class="data" id="memory_allocated"></div></td>
+                </tr>
+                <tr>
+                    <td><div>Average Allocation Speed:</div><div class="data" id="memory_average_allocation_speed"></div></td>
+                </tr>
+                <tr>
+                    <td><div>System Memory:</div><div class="data" id="memory_system"></div></td>
+                </tr>
+            </table>
             
-            <div id="logs_category">
-                <h1>Logs</h1>
+            <h1>Logs</h1>
                 <div id="logs"></div>
-            </div>
         </section>
 
-        <h2 style="margin-top: 50px;">Not ActuallyGiggles?</h2>
-        <h3 style="margin-top: 50px; font-weight: lighter;">Congrats on finding this place! Now don't tell others. ;)</h3>
+        <h2>Not ActuallyGiggles?</h2>
+        <h3 style="margin-top: 20px; font-weight: lighter;">Congrats on finding this place! Now don't tell others. ;)</h3>
     
         <footer>
             <div id="dev-links">

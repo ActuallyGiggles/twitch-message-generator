@@ -7,13 +7,19 @@ const allocatedDiv = document.getElementById("memory_allocated")
 const averageAllocationSpeedDiv = document.getElementById("memory_average_allocation_speed")
 const systemDiv = document.getElementById("memory_system")
 const writeModeDiv = document.getElementById("markov_write_mode")
+const totalIntake = document.getElementById("total_intake")
+const intake = document.getElementById("intake")
+const averageIntake = document.getElementById("average_intake")
 const timeUntilWriteDiv = document.getElementById("markov_time_until_write")
 const currentCountDiv = document.getElementById("markov_current_count")
 const peakIntakeDiv = document.getElementById("markov_peak_intake")
+const workersDiv = document.getElementById("workers")
+const logsDiv = document.getElementById("logs")
 const loading = document.getElementById("loading-page")
 const offline = document.getElementById("offline")
 
 const statsUrl = "https://actuallygiggles.localtonet.com/server-stats?access=security-omegalul"
+var lastMarkovIntake = 0
 
 let statistics = {}
 const onReady = (callback) => {
@@ -56,8 +62,9 @@ function generateHtml() {
     const memoryUsage = statistics["memory_usage"]
     const writeMode = statistics["write_mode"]
     const timeUntilWrite = statistics["time_until_write"]
-    const currentCount = statistics["current_count"]
     const workers = statistics["workers"]
+    const totalCount = statistics["total_count"]
+    const currentCount = statistics["current_count"]
     const countLimit = statistics["count_limit"]
     const peakIntake = statistics["peak_intake"]
     const logs = statistics["logs"]
@@ -81,29 +88,33 @@ function generateHtml() {
         countLabel.classList.remove("hidden")
         const timeUntilLabel = document.getElementById("markov_time_until_label")
         timeUntilLabel.classList.add("hidden")
-        const label = document.getElementById("markov_label")
-        label.classList.add("hidden")
 
-        var percentage = currentCount / countLimit * 100
+        var percentage = (currentCount/countLimit) * 100
 		currentCountDiv.innerHTML = `${Math.trunc(percentage)}%`
 	}
+    if (lastMarkovIntake > currentCount || lastMarkovIntake == 0) {
+        intake.innerHTML = "-----"
+    } else {
+        intake.innerHTML = (currentCount-lastMarkovIntake)
+    }
+    lastMarkovIntake = currentCount
+    totalIntake.innerHTML = totalCount
+    averageIntake.innerHTML = Math.trunc(totalCount/(runTime/1000000000))
     
 	if (peakIntake["chain"] == "") {
         var time = rfc3339ToDate(peakIntake["time"])
         peakIntakeDiv.innerHTML = `[N/A, ${time.substring(0, 2)}h${time.substring(3, 5)}m, ${peakIntake["amount"]}]`
     } else {
         var time = rfc3339ToDate(peakIntake["time"])
-        peakIntakeDiv.innerHTML = `[${peakIntake["chain"]}, ${time.substring(0, 2)}h${time.substring(3, 5)}m, ${peakIntake["amount"]}]`
+        peakIntakeDiv.innerHTML = `${peakIntake["chain"]} | ${peakIntake["amount"]} | ${time.substring(0, 2)}:${time.substring(3, 5)}`
     }
 
-    const workersDiv = document.getElementById("workers")
     workersDiv.innerHTML = workers
 
 	allocatedDiv.innerHTML = `${memoryUsage["allocated"]} MB`
 	averageAllocationSpeedDiv.innerHTML = `${(memoryUsage["total_allocated"]/(runTime/1000000000)).toString().substring(0, 2)} MB/s`
 	systemDiv.innerHTML = `${memoryUsage["system"]} MB`
 
-    const logsDiv = document.getElementById("logs")
     var logsFormatted
     for (let index = 0; index < logs.length; index++) {
         const log = logs[index];
@@ -117,14 +128,14 @@ function rfc3339ToDate(rfc) {
     var month = rfc.substring(5, 7)
     var day = rfc.substring(8, 10)
     var time = rfc.substring(11, 16)
-    return `${time} ${day}-${month}-${year}`
+    return `${time}, ${day}-${month}-${year}`
 }
 
 function nanoToTime(nano) {
     var minutes = nano/60000000000
     var m = minutes % 60;
     var h = (minutes-m)/60;
-    return (h < 10 ? "0" : "") + h.toString() + "h" + (m < 10 ? "0" : "") + m.toString().substring(0,2) + "m";
+    return (h < 10 ? "0" : "") + Math.trunc(h) + "h" + (m < 10 ? "0" : "") + Math.trunc(m) + "m";
 }
 
 onReady(async () => {	
