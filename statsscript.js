@@ -44,6 +44,7 @@ async function getStats() {
 }
 
 function generateHtml() {
+    console.log(statistics)
     const startTime = statistics["start_time"]
     const runTime = statistics["run_time"]
     const memoryUsage = statistics["memory_usage"]

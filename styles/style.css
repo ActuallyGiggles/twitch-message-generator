@@ -140,11 +140,9 @@ input[type="tag"] {
 
 /**/	
 
-#super-secret-stats-box-lol {
-	position: fixed;
-	left: 0px;
-	width: 25px;
-	height: 25px;
+#stats_link{
+	opacity: 1;
+	cursor:default;
 }
 
 #loading-page {
