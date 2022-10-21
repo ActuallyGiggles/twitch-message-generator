@@ -4,7 +4,6 @@
 
 
 body {
-	height: 100vh;
 	margin: 0;
 	background: rgb(42, 42, 42);
 	color: white;
@@ -720,9 +719,10 @@ footer a {
 
 #logs_category {
 	margin: 10px;
+	margin-top: 50px;
 	padding: 30px;
 	width: 40%;
-	height: 40%;
+	height: 230px;
 	border-radius: 15px;
 	background-color: rgb(37, 37, 37);
 	box-shadow: 2px 2px 10px 2px black;
