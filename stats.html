@@ -21,7 +21,13 @@
             </div>
         </header>
 
-        <section>
+        <div id="loading-page">
+            <div class="dot-windmill-page"></div>
+        </div>
+
+        <div id="offline" class="hidden">Offline...</div>
+
+        <section id="section" class="hidden">
             <div id="stats">
                 <div id="category">
                     <h1>Time</h1>
@@ -37,15 +43,19 @@
                 <div id="category">
                     <h1>Markov</h1>
                     <div id="category_entry">
-                        <div id="markov_label">----------------</div>
+                        <div id="markov_label">-----</div>
                         <div id="markov_time_until_label" class="hidden">Next Write:</div>
-                        <div id="markov_count_label" class="hidden">Message Intake:</div>
                         <div id="markov_time_until_write"></div>
+                        <div id="markov_count_label" class="hidden">Message Intake:</div>
                         <div id="markov_current_count">-----</div>
                     </div>
                     <div id="category_entry">
                         <div id="markov_peak_label">Peak:</div>
                         <div id="markov_peak_intake">-----</div>
+                    </div>
+                    <div id="category_entry">
+                        <div id="workers_label">Workers:</div>
+                        <div id="workers"></div>
                     </div>
                 </div>
                 <div id="category">
@@ -63,6 +73,11 @@
                         <div id="memory_system">-----</div>    
                     </div>
                 </div>
+            </div>
+            
+            <div id="logs_category">
+                <h1>Logs</h1>
+                <div id="logs"></div>
             </div>
         </section>
 

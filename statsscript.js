@@ -1,3 +1,4 @@
+const section = document.getElementById("section")
 const stats = document.getElementById("stats")
 const startTimeDiv = document.getElementById("time_start")
 const runTimeDiv = document.getElementById("time_run")
@@ -9,7 +10,11 @@ const writeModeDiv = document.getElementById("markov_write_mode")
 const timeUntilWriteDiv = document.getElementById("markov_time_until_write")
 const currentCountDiv = document.getElementById("markov_current_count")
 const peakIntakeDiv = document.getElementById("markov_peak_intake")
+const loading = document.getElementById("loading-page")
+const offline = document.getElementById("offline")
+
 const statsUrl = "https://actuallygiggles.localtonet.com/server-stats?access=security-omegalul"
+
 let statistics = {}
 const onReady = (callback) => {
 	if (document.readyState != "loading") {
@@ -45,14 +50,17 @@ async function getStats() {
 
 function generateHtml() {
     console.log(statistics)
+
     const startTime = statistics["start_time"]
     const runTime = statistics["run_time"]
     const memoryUsage = statistics["memory_usage"]
     const writeMode = statistics["write_mode"]
     const timeUntilWrite = statistics["time_until_write"]
     const currentCount = statistics["current_count"]
+    const workers = statistics["workers"]
     const countLimit = statistics["count_limit"]
     const peakIntake = statistics["peak_intake"]
+    const logs = statistics["logs"]
 	
 	startTimeDiv.innerHTML = `${rfc3339ToDate(startTime)}`
 	runTimeDiv.innerHTML = `${nanoToTime(runTime)}`
@@ -77,7 +85,7 @@ function generateHtml() {
         label.classList.add("hidden")
 
         var percentage = currentCount / countLimit * 100
-		currentCountDiv.innerHTML = `${percentage.toString().substring(0,2)}% (${currentCount}/${countLimit})`
+		currentCountDiv.innerHTML = `${Math.trunc(percentage)}%`
 	}
     
 	if (peakIntake["chain"] == "") {
@@ -88,9 +96,20 @@ function generateHtml() {
         peakIntakeDiv.innerHTML = `[${peakIntake["chain"]}, ${time.substring(0, 2)}h${time.substring(3, 5)}m, ${peakIntake["amount"]}]`
     }
 
+    const workersDiv = document.getElementById("workers")
+    workersDiv.innerHTML = workers
+
 	allocatedDiv.innerHTML = `${memoryUsage["allocated"]} MB`
 	averageAllocationSpeedDiv.innerHTML = `${(memoryUsage["total_allocated"]/(runTime/1000000000)).toString().substring(0, 2)} MB/s`
 	systemDiv.innerHTML = `${memoryUsage["system"]} MB`
+
+    const logsDiv = document.getElementById("logs")
+    var logsFormatted
+    for (let index = 0; index < logs.length; index++) {
+        const log = logs[index];
+        logsFormatted = logsFormatted + "<br>"+ log
+    }
+    logsDiv.innerHTML = logsFormatted
 }
 
 function rfc3339ToDate(rfc) {
@@ -109,11 +128,33 @@ function nanoToTime(nano) {
 }
 
 onReady(async () => {	
-	await getStats()
+    const a = new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(false);
+		}, 2 * 1000);
+	});
+	const b = new Promise(async (resolve, reject) => {
+		await getStats()
+		resolve(true);
+	});
+	const APIOnlineBool = await Promise.race([a, b]);
+
+    loading.classList.add("hidden")
+    if (!APIOnlineBool) {
+        offline.classList.remove("hidden")
+    } else {
+        section.classList.remove("hidden")
+    }
 
 	generateHtml()
+
 	setInterval(async () => {
         await getStats()
+
+        if (statistics == undefined) {
+            offline.classList.remove("hidden")
+            section.classList.add("hidden")
+        }
 
 	    generateHtml()
     }, 1000);
