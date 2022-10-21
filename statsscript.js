@@ -66,6 +66,7 @@ function generateHtml() {
     const totalCount = statistics["total_count"]
     const currentCount = statistics["current_count"]
     const countLimit = statistics["count_limit"]
+    const intakePerMinute = statistics["intake_per_minute"]
     const peakIntake = statistics["peak_intake"]
     const logs = statistics["logs"]
 	
@@ -99,7 +100,7 @@ function generateHtml() {
     }
     lastMarkovIntake = currentCount
     totalIntake.innerHTML = totalCount + " msgs"
-    averageIntake.innerHTML = Math.trunc(totalCount/(runTime/1000000000)) + " msgs"  
+    averageIntake.innerHTML = intakePerMinute + " msgs/m"  
     
 	if (peakIntake["chain"] == "") {
         var time = rfc3339ToDate(peakIntake["time"])
