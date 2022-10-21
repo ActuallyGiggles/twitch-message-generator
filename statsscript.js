@@ -95,11 +95,11 @@ function generateHtml() {
     if (lastMarkovIntake > currentCount || lastMarkovIntake == 0) {
         intake.innerHTML = "-----"
     } else {
-        intake.innerHTML = (currentCount-lastMarkovIntake)
+        intake.innerHTML = (currentCount-lastMarkovIntake) + " msgs"  
     }
     lastMarkovIntake = currentCount
-    totalIntake.innerHTML = totalCount
-    averageIntake.innerHTML = Math.trunc(totalCount/(runTime/1000000000))
+    totalIntake.innerHTML = totalCount + " msgs"
+    averageIntake.innerHTML = Math.trunc(totalCount/(runTime/1000000000)) + " msgs"  
     
 	if (peakIntake["chain"] == "") {
         var time = rfc3339ToDate(peakIntake["time"])

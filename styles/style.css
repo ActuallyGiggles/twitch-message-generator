@@ -139,11 +139,6 @@ input[type="tag"] {
 
 /**/	
 
-#stats_link{
-	opacity: 1;
-	cursor:default;
-}
-
 #loading-page {
 	margin: 100px;
 }
