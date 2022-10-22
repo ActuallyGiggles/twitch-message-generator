@@ -103,7 +103,12 @@ function generateHtml() {
     // }
     lastMarkovIntake = currentCount
     totalIntakeDiv.innerHTML = totalCount.toLocaleString() + " msgs"
-    averageIntake.innerHTML = intakePerMinute.toLocaleString() + " msgs/m"  
+
+    if (intakePerMinute == 0) {
+        averageIntake.innerHTML = "-----"
+    } else {
+        averageIntake.innerHTML = (intakePerMinute*60).toLocaleString() + " msgs/h" 
+    } 
     
 	if (peakIntake["chain"] == "") {
         var time = rfc3339ToDate(peakIntake["time"])
