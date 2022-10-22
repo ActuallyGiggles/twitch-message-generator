@@ -4,11 +4,11 @@ const startTimeDiv = document.getElementById("time_start")
 const runTimeDiv = document.getElementById("time_run")
 const memoryUsageDiv = document.getElementById("memory_usage")
 const allocatedDiv = document.getElementById("memory_allocated")
-const averageAllocationSpeedDiv = document.getElementById("memory_average_allocation_speed")
+const averageAllocationDiv = document.getElementById("memory_average_allocation")
 const systemDiv = document.getElementById("memory_system")
 const writeModeDiv = document.getElementById("markov_write_mode")
 const totalIntake = document.getElementById("total_intake")
-const intake = document.getElementById("intake")
+// const intake = document.getElementById("intake")
 const averageIntake = document.getElementById("average_intake")
 const timeUntilWriteDiv = document.getElementById("markov_time_until_write")
 const currentCountDiv = document.getElementById("markov_current_count")
@@ -93,14 +93,14 @@ function generateHtml() {
         var percentage = (currentCount/countLimit) * 100
 		currentCountDiv.innerHTML = `${Math.trunc(percentage)}%`
 	}
-    if (lastMarkovIntake > currentCount || lastMarkovIntake == 0) {
-        intake.innerHTML = "-----"
-    } else {
-        intake.innerHTML = (currentCount-lastMarkovIntake) + " msgs"  
-    }
+    // if (lastMarkovIntake > currentCount || lastMarkovIntake == 0) {
+    //     intake.innerHTML = "-----"
+    // } else {
+    //     intake.innerHTML = (currentCount-lastMarkovIntake) + " msgs"  
+    // }
     lastMarkovIntake = currentCount
-    totalIntake.innerHTML = totalCount + " msgs"
-    averageIntake.innerHTML = intakePerMinute + " msgs/m"  
+    totalIntake.innerHTML = totalCount.toLocaleString() + " msgs"
+    averageIntake.innerHTML = intakePerMinute.toLocaleString() + " msgs/m"  
     
 	if (peakIntake["chain"] == "") {
         var time = rfc3339ToDate(peakIntake["time"])
@@ -112,9 +112,9 @@ function generateHtml() {
 
     workersDiv.innerHTML = workers
 
-	allocatedDiv.innerHTML = `${memoryUsage["allocated"]} MB`
-	averageAllocationSpeedDiv.innerHTML = `${(memoryUsage["total_allocated"]/(runTime/1000000000)).toString().substring(0, 2)} MB/s`
-	systemDiv.innerHTML = `${memoryUsage["system"]} MB`
+	allocatedDiv.innerHTML = `${memoryUsage["allocated"].toLocaleString()} MB`
+	averageAllocationDiv.innerHTML = `${(memoryUsage["total_allocated"]/(runTime/1000000000)).toString().substring(0, 2)} MB/s`
+	systemDiv.innerHTML = `${memoryUsage["system"].toLocaleString()} MB`
 
     var logsFormatted
     var first = true
