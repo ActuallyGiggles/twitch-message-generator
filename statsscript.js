@@ -67,7 +67,7 @@ function generateHtml() {
     const totalCount = statistics["total_count"]
     const currentCount = statistics["current_count"]
     const countLimit = statistics["count_limit"]
-    const intakePerMinute = statistics["intake_per_minute"]
+    const intakePerHour = statistics["intake_per_hour"]
     const peakIntake = statistics["peak_intake"]
     const logs = statistics["logs"]
 	
@@ -104,10 +104,10 @@ function generateHtml() {
     lastMarkovIntake = currentCount
     totalIntakeDiv.innerHTML = totalCount.toLocaleString() + " msgs"
 
-    if (intakePerMinute == 0) {
+    if (intakePerHour == 0) {
         averageIntake.innerHTML = "-----"
     } else {
-        averageIntake.innerHTML = (intakePerMinute*60).toLocaleString() + " msgs/h" 
+        averageIntake.innerHTML = (intakePerHour).toLocaleString() + " msgs/h" 
     } 
     
 	if (peakIntake["chain"] == "") {
