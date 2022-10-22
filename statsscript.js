@@ -7,7 +7,8 @@ const allocatedDiv = document.getElementById("memory_allocated")
 const averageAllocationDiv = document.getElementById("memory_average_allocation")
 const systemDiv = document.getElementById("memory_system")
 const writeModeDiv = document.getElementById("markov_write_mode")
-const totalIntake = document.getElementById("total_intake")
+const capacityLabel = document.getElementById("capacity_label")
+const totalIntakeDiv = document.getElementById("total_intake")
 // const intake = document.getElementById("intake")
 const averageIntake = document.getElementById("average_intake")
 const timeUntilWriteDiv = document.getElementById("markov_time_until_write")
@@ -74,6 +75,7 @@ function generateHtml() {
 	runTimeDiv.innerHTML = `${nanoToTime(runTime)}`
 
 	if (writeMode == "interval") {
+        capacityLabel.title = "How long until the next write cycle is started."
         currentCountDiv.classList.add("hidden")
         const countLabel = document.getElementById("markov_count_label")
         countLabel.classList.add("hidden")
@@ -84,6 +86,7 @@ function generateHtml() {
 
 		timeUntilWriteDiv.innerHTML = `${timeUntilWrite}`
 	} else {
+        capacityLabel.title = `How full the intake capacity is, triggering a write cycle. (${currentCount.toLocaleString()}/${countLimit.toLocaleString()})`
         timeUntilWriteDiv.classList.add("hidden")
         const countLabel = document.getElementById("markov_count_label")
         countLabel.classList.remove("hidden")
@@ -99,7 +102,7 @@ function generateHtml() {
     //     intake.innerHTML = (currentCount-lastMarkovIntake) + " msgs"  
     // }
     lastMarkovIntake = currentCount
-    totalIntake.innerHTML = totalCount.toLocaleString() + " msgs"
+    totalIntakeDiv.innerHTML = totalCount.toLocaleString() + " msgs"
     averageIntake.innerHTML = intakePerMinute.toLocaleString() + " msgs/m"  
     
 	if (peakIntake["chain"] == "") {

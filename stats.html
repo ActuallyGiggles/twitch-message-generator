@@ -15,6 +15,7 @@
 
     <body>
         <header>
+            <a href="index.html" id="stats_link" style="position: fixed; left: 1%; top: 1%;"><img src="img/peepoChat.gif" class="emote"></a>
             <img src="img/WutFace.png">
             <div>
                 <h1 id ="pagetitle"><a href="/twitch-message-generator/">Generator Stats</a></h1>
@@ -30,15 +31,15 @@
         <section id="section" class="hidden">
             <h1 title="Data related to time.">Time</h1>
             <table>
-                <tr>
+                <tr title="The time the application was started.">
                     <td>
-                        <div title="The time the application was started.">Start Time:</div>
+                        <div>Start Time:</div>
                         <div class="data" id="time_start"></div>
                     </td>
                 </tr>
-                <tr>
+                <tr title="How long the application has been running for.">
                     <td>
-                        <div title="How long the application has been running for.">Uptime:</div>
+                        <div>Uptime:</div>
                         <div class="data" id="time_run"></div>
                     </td>
                 </tr>
@@ -46,19 +47,18 @@
 
             <h1 title="Data related to the markov package.">Markov</h1>
             <table>
-                <tr>
+                <tr id="capacity_label">
                     <td id="markov_time_until_label">
-                        <div title="How long until the next write cycle is started.">Interval:</div>
-                        <div class="data" id="markov_time_until_write"></div><
-                        /td>
+                        <div>Interval:</div>
+                        <div class="data" id="markov_time_until_write"></div></td>
                     <td id="markov_count_label">
-                        <div title="How many more messages need to be taken in for a write cycle to start.">Capacity:</div>
+                        <div>Capacity:</div>
                         <div class="data" id="markov_current_count"></div>
                     </td>
                 </tr>
-                <tr>
+                <tr title="The total amount of messages taken in during this uptime instance.">
                     <td>
-                        <div title="The total amount of messages taken in during this uptime instance.">Total:</div>
+                        <div>Total:</div>
                         <div class="data" id="total_intake"></div>
                     </td>
                 </tr>
@@ -68,21 +68,21 @@
                         <div class="data" id="intake"></div>
                     </td>
                 </tr> -->
-                <tr>
+                <tr title="The amount of messages taken in per minute.">
                     <td>
-                        <div title="The amount of messages taken in per minute.">Per minute:</div>
+                        <div>Per minute:</div>
                         <div class="data" id="average_intake"></div>
                     </td>
                 </tr>
-                <tr>
+                <tr title="The channel that had the most messages during the last write cycle.">
                     <td>
-                        <div title="The channel that had the most messages during the last write cycle.">Peak:</div>
+                        <div>Peak:</div>
                         <div class="data" id="markov_peak_intake"></div>
                     </td>
                 </tr>
-                <tr>
+                <tr title="The amount of channels, workers, or chains used/tracked.">
                     <td>
-                        <div title="The amount of channels, workers, or chains used/tracked.">Channels:</div>
+                        <div>Channels:</div>
                         <div class="data" id="workers"></div>
                     </td>
                 </tr>
@@ -91,20 +91,20 @@
             <h1 title="Data related to memory usage on the system.">Memory</h1>
             <table>
                 <tr>
-                    <td>
-                        <div title="How much memory has been allocated in the current second.">Memory Allocated:</div>
+                    <td title="How much memory has been allocated in the current second.">
+                        <div>Memory Allocated:</div>
                         <div class="data" id="memory_allocated"></div>
                     </td>
                 </tr>
-                <tr>
+                <tr title="An average of how much data is allocated per second.">
                     <td>
-                        <div title="An average of how much data is allocated per second.">Average Allocation:</div>
+                        <div>Average Allocation:</div>
                         <div class="data" id="memory_average_allocation"></div>
                     </td>
                 </tr>
-                <tr>
+                <tr title="What the most amount of memory requested from the system OS is.">
                     <td>
-                        <div title="What the most amount of memory requested from the system OS is.">System Memory:</div>
+                        <div>System Memory:</div>
                         <div class="data" id="memory_system"></div>
                     </td>
                 </tr>
