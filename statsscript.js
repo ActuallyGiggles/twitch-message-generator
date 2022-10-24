@@ -97,7 +97,11 @@ function generateHtml() {
     outputsDiv.innerHTML = outputs.toLocaleString() + " msgs"
 
     const intakePerHour = statistics["intake_per_hour"]
-    averageIntake.innerHTML = (intakePerHour).toLocaleString() + " msgs/h"
+    if (intakePerHour == 0) {
+        averageIntake.innerHTML = "----- msgs/h"
+    } else {
+        averageIntake.innerHTML = (intakePerHour).toLocaleString() + " msgs/h"
+    }
     
     const peakIntake = statistics["peak_intake"]
 	if (peakIntake["chain"] == "") {
