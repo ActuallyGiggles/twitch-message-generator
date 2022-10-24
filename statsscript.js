@@ -2,25 +2,26 @@ const section = document.getElementById("section")
 const stats = document.getElementById("stats")
 const startTimeDiv = document.getElementById("time_start")
 const runTimeDiv = document.getElementById("time_run")
-const memoryUsageDiv = document.getElementById("memory_usage")
-const allocatedDiv = document.getElementById("memory_allocated")
-const averageAllocationDiv = document.getElementById("memory_average_allocation")
 const systemDiv = document.getElementById("memory_system")
 const writeModeDiv = document.getElementById("markov_write_mode")
 const capacityLabel = document.getElementById("capacity_label")
-const totalIntakeDiv = document.getElementById("total_intake")
-// const intake = document.getElementById("intake")
+const inputsDiv = document.getElementById("inputs")
+const outputsDiv = document.getElementById("outputs")
 const averageIntake = document.getElementById("average_intake")
 const timeUntilWriteDiv = document.getElementById("markov_time_until_write")
 const currentCountDiv = document.getElementById("markov_current_count")
 const peakIntakeDiv = document.getElementById("markov_peak_intake")
+const homepageDiv = document.getElementById("homepage")
+const getSentenceDiv = document.getElementById("get_sentence")
+const memoryUsageDiv = document.getElementById("memory_usage")
+const allocatedDiv = document.getElementById("memory_allocated")
+const averageAllocationDiv = document.getElementById("memory_average_allocation")
 const workersDiv = document.getElementById("workers")
 const logsDiv = document.getElementById("logs")
 const loading = document.getElementById("loading-page")
 const offline = document.getElementById("offline")
 
 const statsUrl = "https://actuallygiggles.localtonet.com/server-stats?access=security-omegalul"
-var lastMarkovIntake = 0
 
 let statistics = {}
 const onReady = (callback) => {
@@ -57,23 +58,13 @@ async function getStats() {
 
 function generateHtml() {
     console.log(statistics)
-
+	
     const startTime = statistics["start_time"]
     const runTime = statistics["run_time"]
-    const memoryUsage = statistics["memory_usage"]
-    const writeMode = statistics["write_mode"]
-    const timeUntilWrite = statistics["time_until_write"]
-    const workers = statistics["workers"]
-    const totalCount = statistics["total_count"]
-    const currentCount = statistics["current_count"]
-    const countLimit = statistics["count_limit"]
-    const intakePerHour = statistics["intake_per_hour"]
-    const peakIntake = statistics["peak_intake"]
-    const logs = statistics["logs"]
-	
 	startTimeDiv.innerHTML = `${rfc3339ToDate(startTime)}`
 	runTimeDiv.innerHTML = `${nanoToTime(runTime)}`
 
+    const writeMode = statistics["write_mode"]
 	if (writeMode == "interval") {
         capacityLabel.title = "How long until the next write cycle is started."
         currentCountDiv.classList.add("hidden")
@@ -84,8 +75,11 @@ function generateHtml() {
         const label = document.getElementById("markov_label")
         label.classList.add("hidden")
 
+        const timeUntilWrite = statistics["time_until_write"]
 		timeUntilWriteDiv.innerHTML = `${timeUntilWrite}`
 	} else {
+        const currentCount = statistics["current_count"]
+        const countLimit = statistics["count_limit"]
         capacityLabel.title = `How full the intake capacity is, triggering a write cycle. (${currentCount.toLocaleString()}/${countLimit.toLocaleString()})`
         timeUntilWriteDiv.classList.add("hidden")
         const countLabel = document.getElementById("markov_count_label")
@@ -96,20 +90,16 @@ function generateHtml() {
         var percentage = (currentCount/countLimit) * 100
 		currentCountDiv.innerHTML = `${Math.trunc(percentage)}%`
 	}
-    // if (lastMarkovIntake > currentCount || lastMarkovIntake == 0) {
-    //     intake.innerHTML = "-----"
-    // } else {
-    //     intake.innerHTML = (currentCount-lastMarkovIntake) + " msgs"  
-    // }
-    lastMarkovIntake = currentCount
-    totalIntakeDiv.innerHTML = totalCount.toLocaleString() + " msgs"
 
-    if (intakePerHour == 0) {
-        averageIntake.innerHTML = "-----"
-    } else {
-        averageIntake.innerHTML = (intakePerHour).toLocaleString() + " msgs/h" 
-    } 
+    const inputs = statistics["total_inputs"]
+    inputsDiv.innerHTML = inputs.toLocaleString() + " msgs"
+    const outputs = statistics["total_outputs"]
+    outputsDiv.innerHTML = outputs.toLocaleString() + " msgs"
+
+    const intakePerHour = statistics["intake_per_hour"]
+    averageIntake.innerHTML = (intakePerHour).toLocaleString() + " msgs/h"
     
+    const peakIntake = statistics["peak_intake"]
 	if (peakIntake["chain"] == "") {
         var time = rfc3339ToDate(peakIntake["time"])
         peakIntakeDiv.innerHTML = `[N/A, ${time.substring(0, 2)}h${time.substring(3, 5)}m, ${peakIntake["amount"]}]`
@@ -118,12 +108,18 @@ function generateHtml() {
         peakIntakeDiv.innerHTML = `${peakIntake["chain"]} | ${peakIntake["amount"]} | ${time.substring(0, 2)}:${time.substring(3, 5)}`
     }
 
+    const workers = statistics["workers"]
     workersDiv.innerHTML = workers
 
+    homepageDiv.innerHTML = statistics["website_hits"]
+    getSentenceDiv.innerHTML = statistics["sentence_hits"]
+
+    const memoryUsage = statistics["memory_usage"]
 	allocatedDiv.innerHTML = `${memoryUsage["allocated"].toLocaleString()} MB`
 	averageAllocationDiv.innerHTML = `${(memoryUsage["total_allocated"]/(runTime/1000000000)).toString().substring(0, 2)} MB/s`
 	systemDiv.innerHTML = `${memoryUsage["system"].toLocaleString()} MB`
 
+    const logs = statistics["logs"]
     var logsFormatted
     var first = true
     for (let index = 0; index < logs.length; index++) {

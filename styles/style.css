@@ -667,6 +667,7 @@ footer a {
 
 #offline {
 	font-size: 100px;
+	margin-bottom: 100px;
 }
 
 #section {
@@ -698,13 +699,26 @@ footer a {
 }
 
 table {
-	width: 50%;
+	width: 80%;
 	margin-top: 10px;
 	margin-bottom: 20px;
 	border-style: solid;
 	border-radius: 15px;
 	border-color: #4c4c4c;
 	font-size: .7em;
+}
+
+#category-row {
+	display: flex;
+	flex-direction: row;
+	width: 80%;
+}
+
+#category {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
 }
 
 tr {
