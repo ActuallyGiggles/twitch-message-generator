@@ -120,7 +120,7 @@ function generateHtml() {
 
     const memoryUsage = statistics["memory_usage"]
 	allocatedDiv.innerHTML = `${memoryUsage["allocated"].toLocaleString()} MB`
-	averageAllocationDiv.innerHTML = `${(memoryUsage["total_allocated"]/(runTime/1000000000)).toString().substring(0, 2)} MB/s`
+	averageAllocationDiv.innerHTML = `${(memoryUsage["total_allocated"]/(runTime/1000000000)).toLocaleString()} MB/s`
 	systemDiv.innerHTML = `${memoryUsage["system"].toLocaleString()} MB`
 
     const logs = statistics["logs"]
