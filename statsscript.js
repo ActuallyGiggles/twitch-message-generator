@@ -7,7 +7,8 @@ const writeModeDiv = document.getElementById("markov_write_mode")
 const capacityLabel = document.getElementById("capacity_label")
 const inputsDiv = document.getElementById("inputs")
 const outputsDiv = document.getElementById("outputs")
-const averageIntake = document.getElementById("average_intake")
+const averageIntakeDiv = document.getElementById("average_intake")
+const lastHourIntakeDiv = document.getElementById("last_hour_intake")
 const timeUntilWriteDiv = document.getElementById("markov_time_until_write")
 const currentCountDiv = document.getElementById("markov_current_count")
 const peakIntakeDiv = document.getElementById("markov_peak_intake")
@@ -96,11 +97,14 @@ function generateHtml() {
     const outputs = statistics["total_outputs"]
     outputsDiv.innerHTML = outputs.toLocaleString() + " msgs"
 
+    const averageIntake = Math.trunc((inputs/(runTime/1000000000))).toLocaleString()
+    averageIntakeDiv.innerHTML = `${averageIntake} msg/s`
+
     const intakePerHour = statistics["intake_per_hour"]
     if (intakePerHour == 0) {
-        averageIntake.innerHTML = "----- msgs/h"
+        lastHourIntakeDiv.innerHTML = "----- msgs"
     } else {
-        averageIntake.innerHTML = (intakePerHour).toLocaleString() + " msgs/h"
+        lastHourIntakeDiv.innerHTML = `${(intakePerHour).toLocaleString()} msgs`
     }
     
     const peakIntake = statistics["peak_intake"]
@@ -120,7 +124,7 @@ function generateHtml() {
 
     const memoryUsage = statistics["memory_usage"]
 	allocatedDiv.innerHTML = `${memoryUsage["allocated"].toLocaleString()} MB`
-	averageAllocationDiv.innerHTML = `${(memoryUsage["total_allocated"]/(runTime/1000000000)).toLocaleString()} MB/s`
+	averageAllocationDiv.innerHTML = `${Math.trunc((memoryUsage["total_allocated"]/(runTime/1000000000))).toLocaleString()} MB/s`
 	systemDiv.innerHTML = `${memoryUsage["system"].toLocaleString()} MB`
 
     const logs = statistics["logs"]
@@ -150,14 +154,16 @@ function nanoToTime(nano) {
     var minutes = nano/60000000000
     var m = minutes % 60;
     var h = (minutes-m)/60;
-    return (h < 10 ? "0" : "") + Math.trunc(h) + "h" + (m < 10 ? "0" : "") + Math.trunc(m) + "m";
+    var d = h / 24
+    h = h % 24
+    return `${Math.trunc(d)}d, ${(h < 10 ? "0" : "") + Math.trunc(h)}h, ${(m < 10 ? "0" : "") + Math.trunc(m)}m`;
 }
 
 onReady(async () => {	
     const a = new Promise((resolve, reject) => {
 		setTimeout(() => {
 			resolve(false);
-		}, 2 * 1000);
+		}, 3 * 1000);
 	});
 	const b = new Promise(async (resolve, reject) => {
 		await getStats()
