@@ -1,5 +1,6 @@
 const loadingPage = document.getElementById("loading-page")
 const loadingResult = document.getElementById("loading-result");
+const markovPortal = document.getElementById("markov-portal")
 const channelCardsContainer = document.getElementById("channel-cards-container")
 const searchInput = document.querySelector("[channel-search]")
 const channelCardTemplate = document.querySelector("[channel-card-template]")
@@ -77,8 +78,8 @@ async function generateInitialHtml() {
 			Card: card
 		})
 	}
-	channelCardsContainer.classList.remove("hidden");
 
+	markovPortal.classList.remove("hidden")
 	loadingPage.classList.add("hidden")
 	suggestedStreamers.classList.remove("hidden")
 	socials.classList.remove("hidden")
@@ -93,6 +94,8 @@ async function fetchMarkovMessage(event, channelName) {
 	displayName = channels[channelName].display_name
 
 	document.title = "Twitch Msg Gen • " + displayName;
+
+	updateUsingCard(channelName)
 
 	result.textContent = "";
 	result.classList.add("hidden")
@@ -185,18 +188,10 @@ function replaceEmotes(channelName, isError) {
 		resultObj.appendChild(err)
 	}
 	
-	generateResultHtml(channelName, resultObj, isError)
+	generateResultHtml(resultObj, isError)
 }
 
-function generateResultHtml(channelName, resultObj, isError) {
-	result.appendChild(resultObj);
-
-	if(isError) {
-		result.style.backgroundColor = "IndianRed";
-	} else {
-		result.style.backgroundColor = "";
-	}
-
+function updateUsingCard(channelName) {
 	var child = using.lastElementChild; 
 	while (child) {
 		using.removeChild(child);
@@ -221,9 +216,20 @@ function generateResultHtml(channelName, resultObj, isError) {
 		}
 	}
 
+	using.classList.remove("hidden")
+}
+
+function generateResultHtml(resultObj, isError) {
+	result.appendChild(resultObj);
+
+	if(isError) {
+		result.style.backgroundColor = "IndianRed";
+	} else {
+		result.style.backgroundColor = "";
+	}
+
 	loadingResult.classList.add("hidden");
 	result.classList.remove("hidden");
-	using.classList.remove("hidden")
 }
 
 const getJson = (markovUrl) => fetch(markovUrl, { method: "GET" }).then(async (response) => {
@@ -244,6 +250,11 @@ function encodeQueryData(data) {
 		}
     }
     return ret.join('&');
+}
+
+function pickRandomChannel() {
+	var keys = Object.keys(channels);
+	return channels[keys[keys.length * Math.random() << 0]];
 }
 
 async function getChannelsInfo() {
@@ -307,11 +318,11 @@ async function getGlobalEmotes() {
 function getChannelEmotes(channelName) {
 	var id = channels[channelName].id
 	get7tvEmotes(channelName)
-	getBttvEmotes(id)
-	getFfzEmotes(id)
+	getBttvEmotes(channelName, id)
+	getFfzEmotes(channelName, id)
 }
 
-async function get7tvEmotes(user) {
+async function get7tvEmotes(channelName) {
     try {
         const response = await fetch(`https://api.7tv.app/v2/users/${user}/emotes`, {
             method: 'GET'
@@ -324,11 +335,11 @@ async function get7tvEmotes(user) {
 			emotes.set(name, url)
         }
     } catch (err) {
-        console.log('get7tvEmotes failed'.bgRed);
+        console.log(`${channelName}: no 7tv`);
     }
 }
 
-async function getBttvEmotes(id) {
+async function getBttvEmotes(channelName, id) {
     try {
         const response = await fetch(`https://api.betterttv.net/3/cached/users/twitch/${id}`, {
             method: 'GET'
@@ -348,11 +359,11 @@ async function getBttvEmotes(id) {
 			emotes.set(name, url)
         }
     } catch (err) {
-        console.log(`getBttvEmotes failed for ${id}`.bgRed);
+        console.log(`${channelName}: no BTTV`);
     }
 }
 
-async function getFfzEmotes(id) {
+async function getFfzEmotes(channelName, id) {
     try {
         const response = await fetch(`https://api.frankerfacez.com/v1/room/id/${id}`, {
             method: 'GET'
@@ -384,7 +395,7 @@ async function getFfzEmotes(id) {
 			emotes.set(name, urlChosen)
         }
     } catch (err) {
-        console.log(`getFfzEmotes failed for ${id}`.bgRed);
+        console.log(`${channelName}: no FFZ`);
     }
 }
 
@@ -410,8 +421,8 @@ onReady(async () => {
 
 	generateInitialHtml()
 
-	searchInput.addEventListener("input", e => {
-		const value = e.target.value.toLowerCase()
+	searchInput.addEventListener("input", function (event) {
+		const value = event.target.value.toLowerCase()
 		channelCards.forEach(card => {
 			const isVisible = card.Name.includes(value)
 			card.Card.classList.toggle("hidden", !isVisible)
@@ -428,9 +439,12 @@ onReady(async () => {
 		|| event.target.className == "live-channel-profile-image"
 		|| event.target.className == "dead-channel-profile-image"
 		|| event.target.className == "channel-name") {
-			console.log(event.target.className + ": " + event.target.id)
 			var channelName = event.target.id
 			fetchMarkovMessage(event, channelName)
+		}
+
+		if (event.target.value == "Pick Random Channel") {
+			fetchMarkovMessage(event, pickRandomChannel().login)
 		}
 	})
 

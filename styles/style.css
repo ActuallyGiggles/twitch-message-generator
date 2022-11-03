@@ -303,10 +303,7 @@ input[type="tag"] {
 	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 }
 
-#channel-cards-container {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-	gap: .25rem;
+#markov-portal {
 	margin-top: 1rem;
 	position: relative;
 	width: 90%;
@@ -318,22 +315,30 @@ input[type="tag"] {
 	box-shadow: 2px 2px 10px 2px black;
 }
 
-.search-wrapper {
+#markov-portal-nav {
+	display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#channel-cards-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: .25rem;
+}
+
+#search-wrapper {
 	margin: 10px;
 	padding: 10px;
 	font-size: 0.7em;
 	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-content: center;
+	flex-direction: column;
+	margin-bottom: 20px;
 }
 
-.search-wrapper label {
-	margin: auto;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-content: center;
+#search-wrapper label {
+	margin-bottom: 10px;
 }
 
 input {
@@ -342,6 +347,13 @@ input {
 	height: 30px;
 	width: auto;
 	align-self: center;
+}
+
+#random-button {
+	max-width: 100%;
+    font-size: .8em;
+    padding: 1em;
+    padding-bottom: 2.11em;
 }
 
 .channel-card {
