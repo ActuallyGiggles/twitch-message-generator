@@ -67,17 +67,17 @@ function generateHtml() {
 
     const writeMode = statistics["write_mode"]
 	if (writeMode == "interval") {
-        capacityLabel.title = "How long until the next write cycle is started."
+        capacityLabel.title = "How long until the next write cycle is started. (hours:minutes:seconds)"
         currentCountDiv.classList.add("hidden")
         const countLabel = document.getElementById("markov_count_label")
         countLabel.classList.add("hidden")
         const timeUntilLabel = document.getElementById("markov_time_until_label")
         timeUntilLabel.classList.remove("hidden")
-        const label = document.getElementById("markov_label")
+        const label = document.getElementById("markov_count_label")
         label.classList.add("hidden")
 
         const timeUntilWrite = statistics["time_until_write"]
-		timeUntilWriteDiv.innerHTML = `${timeUntilWrite}`
+		timeUntilWriteDiv.innerHTML = `${nanoToSeconds(timeUntilWrite )}`
 	} else {
         const currentCount = statistics["current_count"]
         const countLimit = statistics["count_limit"]
@@ -99,6 +99,9 @@ function generateHtml() {
 
     const averageIntake = Math.trunc((inputs/(runTime/1000000000))).toLocaleString()
     averageIntakeDiv.innerHTML = `${averageIntake} msg/s`
+
+    const averageOutput = Math.trunc((outputs/(runTime/1000000000))).toLocaleString()
+    document.getElementById("average_output").innerHTML = `${averageOutput} msg/s`
 
     const intakePerHour = statistics["intake_per_hour"]
     if (intakePerHour == 0) {
@@ -156,7 +159,15 @@ function nanoToTime(nano) {
     var h = (minutes-m)/60;
     var d = h / 24
     h = h % 24
-    return `${Math.trunc(d)}d, ${(h < 10 ? "0" : "") + Math.trunc(h)}h, ${(m < 10 ? "0" : "") + Math.trunc(m)}m`;
+    return `${Math.trunc(d)}d, ${(h < 10 ? "0" : "") + Math.trunc(h)}:${(m < 10 ? "0" : "") + Math.trunc(m)}`;
+}
+
+function nanoToSeconds(nano) {
+    var totalSeconds = nano/1000000000
+    var seconds = totalSeconds % 60
+    var minutes = totalSeconds/60
+    var hours = minutes/60
+    return `${(hours < 10 ? "0" : "") + Math.trunc(hours)}:${(minutes < 10 ? "0" : "") + Math.trunc(minutes)}:${(seconds < 10 ? "0" : "") + Math.trunc(seconds)}`
 }
 
 onReady(async () => {	
