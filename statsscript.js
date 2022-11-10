@@ -186,7 +186,7 @@ onReady(async () => {
     const a = new Promise((resolve, reject) => {
 		setTimeout(() => {
 			resolve(false);
-		}, 3 * 1000);
+		}, 5 * 1000);
 	});
 	const b = new Promise(async (resolve, reject) => {
 		await getStats()

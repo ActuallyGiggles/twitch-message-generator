@@ -262,7 +262,7 @@ async function getChannelsInfo() {
 	const a = new Promise((resolve, reject) => {
 		setTimeout(() => {
 			resolve(false);
-		}, 5 * 1000);
+		}, 10 * 1000);
 	});
 	const b = new Promise(async (resolve, reject) => {
 		chans = await getJson(`${channelsUrl}`)
