@@ -217,12 +217,20 @@ onReady(async () => {
 
 function hideCategory(categoryID) {
     var categories = document.getElementsByClassName('category')
-
     for (const category of categories) {
         if (category.id == categoryID) {
             category.style.display = "flex"
         } else {
             category.style.display = "none"
+        }
+    }
+
+    var tabs = document.getElementsByClassName('stat-nav-tab')
+    for (const tab of tabs) {
+        if (tab.value == categoryID) {
+            tab.style.opacity = 1
+        } else {
+            tab.style.opacity = .7
         }
     }
 }
