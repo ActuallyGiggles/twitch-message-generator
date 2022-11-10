@@ -1,23 +1,7 @@
 const section = document.getElementById("section")
 const stats = document.getElementById("stats")
-const startTimeDiv = document.getElementById("time_start")
-const runTimeDiv = document.getElementById("time_run")
-const systemDiv = document.getElementById("memory_system")
 const writeModeDiv = document.getElementById("markov_write_mode")
 const capacityLabel = document.getElementById("capacity_label")
-const inputsDiv = document.getElementById("inputs")
-const outputsDiv = document.getElementById("outputs")
-const averageIntakeDiv = document.getElementById("average_intake")
-const lastHourIntakeDiv = document.getElementById("last_hour_intake")
-const timeUntilWriteDiv = document.getElementById("markov_time_until_write")
-const currentCountDiv = document.getElementById("markov_current_count")
-const peakIntakeDiv = document.getElementById("markov_peak_intake")
-const homepageDiv = document.getElementById("homepage")
-const getSentenceDiv = document.getElementById("get_sentence")
-const memoryUsageDiv = document.getElementById("memory_usage")
-const allocatedDiv = document.getElementById("memory_allocated")
-const averageAllocationDiv = document.getElementById("memory_average_allocation")
-const workersDiv = document.getElementById("workers")
 const logsDiv = document.getElementById("logs")
 const loading = document.getElementById("loading-page")
 const offline = document.getElementById("offline")
@@ -60,15 +44,37 @@ async function getStats() {
 function generateHtml() {
     console.log(statistics)
 	
-    const startTime = statistics["start_time"]
-    const runTime = statistics["run_time"]
-	startTimeDiv.innerHTML = `${rfc3339ToDate(startTime)}`
-	runTimeDiv.innerHTML = `${nanoToTime(runTime)}`
+    // Time
+    const lifeTimeStart = document.getElementById("lifetime_start")
+    lifeTimeStart.innerHTML = `${rfc3339ToDate(statistics["Markov"]["LifetimeStartTime"])}`
+    const sessionStart = document.getElementById("session_start")
+	sessionStart.innerHTML = `${rfc3339ToDate(statistics["Markov"]["SessionStartTime"])}`
+    const lifeTimeUptime = document.getElementById("lifetime_uptime")
+    lifeTimeUptime.innerHTML = `${nanoToTime(statistics["Markov"]["LifetimeUptime"])}`
+    const sessionUptime = document.getElementById("session_uptime")
+    sessionUptime.innerHTML = `${nanoToTime(statistics["Markov"]["SessionUptime"])}`
 
-    const writeMode = statistics["write_mode"]
-	if (writeMode == "interval") {
+    // Site Visitors
+    const homepage = document.getElementById("homepage")
+    homepage.innerHTML = statistics["WebsiteHits"]
+    const getSentence = document.getElementById("get_sentence")
+    getSentence.innerHTML = statistics["SentenceHits"]
+
+    // Memory
+    const allocated = document.getElementById("memory_allocated")
+	allocated.innerHTML = `${statistics["memory_usage"]["allocated"].toLocaleString()} MB`
+    const averageAllocation = document.getElementById("memory_average_allocation")
+	averageAllocation.innerHTML = `${Math.trunc((statistics["memory_usage"]["total_allocated"]/(statistics["Markov"]["SessionUptime"]/1000000000))).toLocaleString()} MB/s`
+	const system = document.getElementById("memory_system")
+    system.innerHTML = `${statistics["memory_usage"]["system"].toLocaleString()} MB`
+
+    // Markov
+        // Overview
+    const currentCount = document.getElementById("markov_current_count")
+    const timeUntilWrite = document.getElementById("markov_time_until_write")
+	if (statistics["Markov"]["WriteMode"] == "interval") {
         capacityLabel.title = "How long until the next write cycle is started. (hours:minutes:seconds)"
-        currentCountDiv.classList.add("hidden")
+        currentCount.classList.add("hidden")
         const countLabel = document.getElementById("markov_count_label")
         countLabel.classList.add("hidden")
         const timeUntilLabel = document.getElementById("markov_time_until_label")
@@ -76,59 +82,62 @@ function generateHtml() {
         const label = document.getElementById("markov_count_label")
         label.classList.add("hidden")
 
-        const timeUntilWrite = statistics["time_until_write"]
-		timeUntilWriteDiv.innerHTML = `${nanoToSeconds(timeUntilWrite )}`
+		timeUntilWrite.innerHTML = `${nanoToSeconds(statistics["Markov"]["TimeUntilWrite"])}`
 	} else {
-        const currentCount = statistics["current_count"]
-        const countLimit = statistics["count_limit"]
-        capacityLabel.title = `How full the intake capacity is, triggering a write cycle. (${currentCount.toLocaleString()}/${countLimit.toLocaleString()})`
-        timeUntilWriteDiv.classList.add("hidden")
+        capacityLabel.title = `How full the intake capacity is, triggering a write cycle. (${statistics["Markov"]["InputCurrentCount"].toLocaleString()}/${statistics["Markov"]["InputCountLimit"].toLocaleString()})`
+        timeUntilWrite.classList.add("hidden")
         const countLabel = document.getElementById("markov_count_label")
         countLabel.classList.remove("hidden")
         const timeUntilLabel = document.getElementById("markov_time_until_label")
         timeUntilLabel.classList.add("hidden")
 
-        var percentage = (currentCount/countLimit) * 100
-		currentCountDiv.innerHTML = `${Math.trunc(percentage)}%`
+        var percentage = (statistics["Markov"]["InputCurrentCount"]/statistics["Markov"]["InputCountLimit"]) * 100
+		currentCount.innerHTML = `${Math.trunc(percentage)}%`
 	}
+    const workers = document.getElementById("workers")
+    workers.innerHTML = statistics["Markov"]["Workers"]
 
-    const inputs = statistics["total_inputs"]
-    inputsDiv.innerHTML = inputs.toLocaleString() + " msgs"
-    const outputs = statistics["total_outputs"]
-    outputsDiv.innerHTML = outputs.toLocaleString() + " msgs"
-
-    const averageIntake = Math.trunc((inputs/(runTime/1000000000))).toLocaleString()
-    averageIntakeDiv.innerHTML = `${averageIntake} msg/s`
-
-    const averageOutput = Math.trunc((outputs/(runTime/1000000000))).toLocaleString()
-    document.getElementById("average_output").innerHTML = `${averageOutput} msg/s`
-
-    const intakePerHour = statistics["intake_per_hour"]
-    if (intakePerHour == 0) {
-        lastHourIntakeDiv.innerHTML = "----- msgs"
+    // Markov
+        // Input
+    const lifetimeInputs = document.getElementById("lifetime_inputs")
+    lifetimeInputs.innerHTML = statistics["Markov"]["LifetimeInputs"].toLocaleString() + " msg"
+    const sessionInputs = document.getElementById("session_inputs")
+    sessionInputs.innerHTML = statistics["Markov"]["SessionInputs"].toLocaleString() + " msg"
+    const averageInputs = document.getElementById("average_inputs")
+    averageInputs.innerHTML = `${Math.trunc((statistics["Markov"]["LifetimeInputs"]/(statistics["Markov"]["LifetimeUptime"]/1000000000))).toLocaleString()} msg/s`
+    const inputsPerHour = document.getElementById("last_hour_inputs")
+    if (statistics["InputsPerHour"] == 0) {
+        inputsPerHour.innerHTML = "----- msgs"
     } else {
-        lastHourIntakeDiv.innerHTML = `${(intakePerHour).toLocaleString()} msgs`
+        inputsPerHour.innerHTML = `${(statistics["InputsPerHour"]).toLocaleString()} msg`
     }
-    
-    const peakIntake = statistics["peak_intake"]
-	if (peakIntake["chain"] == "") {
-        var time = rfc3339ToDate(peakIntake["time"])
-        peakIntakeDiv.innerHTML = `[N/A, ${time.substring(0, 2)}h${time.substring(3, 5)}m, ${peakIntake["amount"]}]`
+    const peakIntake = document.getElementById("markov_peak_inputs")
+    var peakIntakeObj = statistics["Markov"]["PeakChainIntake"]
+	if (peakIntakeObj["chain"] == "") {
+        peakIntake.innerHTML = `[N/A, 0h0m, 0msg]`
     } else {
-        var time = rfc3339ToDate(peakIntake["time"])
-        peakIntakeDiv.innerHTML = `${peakIntake["chain"]} | ${peakIntake["amount"]} | ${time.substring(0, 2)}:${time.substring(3, 5)}`
+        var time = rfc3339ToDate(peakIntakeObj["time"])
+        peakIntake.innerHTML = `${peakIntakeObj["chain"]} | ${time.substring(0, 2)}:${time.substring(3, 5)} | ${peakIntakeObj["amount"].toLocaleString()} msg`
     }
 
-    const workers = statistics["workers"]
-    workersDiv.innerHTML = workers
-
-    homepageDiv.innerHTML = statistics["website_hits"]
-    getSentenceDiv.innerHTML = statistics["sentence_hits"]
-
-    const memoryUsage = statistics["memory_usage"]
-	allocatedDiv.innerHTML = `${memoryUsage["allocated"].toLocaleString()} MB`
-	averageAllocationDiv.innerHTML = `${Math.trunc((memoryUsage["total_allocated"]/(runTime/1000000000))).toLocaleString()} MB/s`
-	systemDiv.innerHTML = `${memoryUsage["system"].toLocaleString()} MB`
+    // Markov
+        // Output
+    const lifetimeOutputs = document.getElementById("lifetime_outputs")
+    lifetimeOutputs.innerHTML = statistics["Markov"]["LifetimeOutputs"].toLocaleString() + " msg"
+    const sessionOutputs = document.getElementById("session_outputs")
+    sessionOutputs.innerHTML = statistics["Markov"]["SessionOutputs"].toLocaleString() + " msg"
+    const averageOutputs = document.getElementById("average_outputs")
+    averageOutputs.innerHTML = `${Math.trunc((statistics["Markov"]["LifetimeOutputs"]/(statistics["Markov"]["LifetimeUptime"]/1000000000))).toLocaleString()} msg/s`
+    const outputsPerHour = document.getElementById("last_hour_outputs")
+    const lastHourDeviation = document.getElementById("last_hour_deviation")
+    if (statistics["OutputsPerHour"] == 0) {
+        outputsPerHour.innerHTML = "----- msgs"
+        lastHourDeviation.title = `The deviation in the number of outputs in the last hour.`
+    } else {
+        var deviation = (statistics["OutputsPerHour"]) - 4686
+        outputsPerHour.innerHTML = `${deviation > 0 ? "+" : ""} ${deviation} msg`
+        lastHourDeviation.title = `The deviation in the number of outputs in the last hour. (current: ${(statistics["OutputsPerHour"]).toLocaleString()} msg | target: 4,686 msg)`
+    }
 
     const logs = statistics["logs"]
     var logsFormatted

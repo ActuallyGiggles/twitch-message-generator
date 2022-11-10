@@ -353,8 +353,10 @@ input {
 #random-button {
 	max-width: 100%;
     font-size: .8em;
-    padding: 1em;
-    padding-bottom: 2.11em;
+	height: 2em;
+	display: flex;
+	justify-content: center;
+  	align-content: center;
 }
 
 .channel-card {
