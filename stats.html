@@ -30,74 +30,89 @@
         <div id="offline" class="hidden">Offline...</div>
 
         <section id="section" class="hidden">
+                <div id="stat-nav">
+                    <input class="stat-nav-tab" id="random-button" type="button" onclick="hideCategory('Time')" value="Time">
+                    <input class="stat-nav-tab" id="random-button" type="button" onclick="hideCategory('Website')" value="Website">
+                    <input class="stat-nav-tab" id="random-button" type="button" onclick="hideCategory('Memory')" value="Memory">
+                    <input class="stat-nav-tab" id="random-button" type="button" onclick="hideCategory('Markov')" value="Markov">
+                </div>  
                 <div id="info-box">
                     <div id="info-column">
-                        <div class="category">
+                        <div class="category" id="Time">
                             <h1 title="Data related to time.">Time</h1>
                             <table>
                                 <tr title="The very first time the application was started.">
                                     <td>
                                         <div>Initial Start Time:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="lifetime_start"></div>
                                     </td>
                                 </tr>
                                 <tr title="The time the current session started.">
                                     <td>
                                         <div>Session Start Time:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="session_start"></div>
                                     </td>
                                 </tr>
                                 <tr title="The total uptime of the application. (days, hours:minutes)">
                                     <td>
                                         <div>Total Uptime:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="lifetime_uptime"></div>
                                     </td>
                                 </tr>
                                 <tr title="The current session uptime. (days, hours:minutes)">
                                     <td>
                                         <div>Session Uptime:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="session_uptime"></div>
                                     </td>
                                 </tr>
                             </table>
                         </div>
         
-                        <div class="category">
+                        <div class="category" id="Website">
                             <h1 title="Data related to website visitors.">Site Visitors</h1>
                             <table>
                                 <tr title="How many times the homepage was visted.">
                                     <td>
                                         <div>Homepage:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="homepage"></div>
                                     </td>
                                 </tr>
                                 <tr title="How many times a sentence was requsted.">
                                     <td>
                                         <div>Get Sentence:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="get_sentence"></div>
                                     </td>
                                 </tr>
                             </table>
                         </div>
         
-                        <div class="category">
+                        <div class="category" id="Memory">
                             <h1 title="Data related to memory usage on the system.">Memory</h1>
                             <table>
                                 <tr>
                                     <td title="How much memory has been allocated in the current second.">
                                         <div>Memory Allocated:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="memory_allocated"></div>
                                     </td>
                                 </tr>
                                 <tr title="An average of how much data is allocated per second during the current session.">
                                     <td>
                                         <div>Average Allocation:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="memory_average_allocation"></div>
                                     </td>
                                 </tr>
                                 <tr title="What the maximum amount of memory requested at a single instance from the system OS is.">
                                     <td>
                                         <div>System Memory:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="memory_system"></div>
                                     </td>
                                 </tr>
@@ -106,22 +121,25 @@
                     </div>
 
                     <div id="info-column">
-                        <div id="markov-category" class="category">
+                        <div class="category" id="Markov">
                             <h1 title="Data related to the markov package.">Markov</h1>
                             <table>
                                 <h2 title="Basic markov data.">Overview</h2>
                                 <tr id="capacity_label">
                                     <td id="markov_time_until_label">
                                         <div>Write Countdown:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="markov_time_until_write"></div></td>
                                     <td id="markov_count_label">
                                         <div>Write Capacity:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="markov_current_count"></div>
                                     </td>
                                 </tr>
                                 <tr title="The amount of channels, workers, or chains used/tracked.">
                                     <td>
                                         <div>Channels:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="workers"></div>
                                     </td>
                                 </tr>
@@ -131,30 +149,35 @@
                                 <tr title="The total amount of messages taken in.">
                                     <td>
                                         <div>Total:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="lifetime_inputs"></div>
                                     </td>
                                 </tr>
                                 <tr title="The amount of messages taken in during the current session.">
                                     <td>
                                         <div>Session:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="session_inputs"></div>
                                     </td>
                                 </tr>
                                 <tr title="The input amount per second (based on lifetime).">
                                     <td>
                                         <div>Average:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="average_inputs"></div>
                                     </td>
                                 </tr>
                                 <tr title="The amount of messages taken in the last hour.">
                                     <td>
                                         <div>Last Hour:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="last_hour_inputs"></div>
                                     </td>
                                 </tr>
                                 <tr title="The channel that had the most messages during the last write cycle.">
                                     <td>
                                         <div>Peak:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="markov_peak_inputs"></div>
                                     </td>
                                 </tr>
@@ -164,24 +187,28 @@
                                 <tr title="The total amount of messages put out.">
                                     <td>
                                         <div>Total:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="lifetime_outputs"></div>
                                     </td>
                                 </tr>
                                 <tr title="The amount of messages put out during the current session.">
                                     <td>
                                         <div>Session:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="session_outputs"></div>
                                     </td>
                                 </tr>
                                 <tr title="The output amount per second (based on lifetime).">
                                     <td>
                                         <div>Average:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="average_outputs"></div>
                                     </td>
                                 </tr>
                                 <tr id="last_hour_deviation">
                                     <td>
                                         <div>Last Hour:</div>
+                                        <div class="spacer"></div>
                                         <div class="data" id="last_hour_outputs"></div>
                                     </td>
                                 </tr>

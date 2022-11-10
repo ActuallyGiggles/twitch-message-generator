@@ -214,3 +214,15 @@ onReady(async () => {
 	    generateHtml()
     }, 1000);
 });
+
+function hideCategory(categoryID) {
+    var categories = document.getElementsByClassName('category')
+
+    for (const category of categories) {
+        if (category.id == categoryID) {
+            category.style.display = "flex"
+        } else {
+            category.style.display = "none"
+        }
+    }
+}
