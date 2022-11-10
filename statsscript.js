@@ -128,15 +128,18 @@ function generateHtml() {
     sessionOutputs.innerHTML = statistics["Markov"]["SessionOutputs"].toLocaleString() + " msg"
     const averageOutputs = document.getElementById("average_outputs")
     averageOutputs.innerHTML = `${Math.trunc((statistics["Markov"]["LifetimeOutputs"]/(statistics["Markov"]["LifetimeUptime"]/1000000000))).toLocaleString()} msg/s`
-    const outputsPerHour = document.getElementById("last_hour_outputs")
     const lastHourDeviation = document.getElementById("last_hour_deviation")
+    const outputsPerHour = document.getElementById("last_hour_outputs")
     if (statistics["OutputsPerHour"] == 0) {
         outputsPerHour.innerHTML = "----- msgs"
         lastHourDeviation.title = `The deviation in the number of outputs in the last hour.`
     } else {
-        var deviation = (statistics["OutputsPerHour"]) - 4686
-        outputsPerHour.innerHTML = `${deviation > 0 ? "+" : ""} ${deviation} msg`
-        lastHourDeviation.title = `The deviation in the number of outputs in the last hour. (current: ${(statistics["OutputsPerHour"]).toLocaleString()} msg | target: 4,686 msg)`
+        lastHourDeviation.title = `The amount of messages put out in the last hour.`
+        outputsPerHour.innerHTML = (statistics["OutputsPerHour"]).toLocaleString()
+
+        //var deviation = (statistics["OutputsPerHour"]) - 4686
+        //outputsPerHour.innerHTML = `${deviation > 0 ? "+" : ""} ${deviation} msg`
+        //lastHourDeviation.title = `The deviation in the number of outputs in the last hour. (current: ${(statistics["OutputsPerHour"]).toLocaleString()} msg | target: 4,686 msg)`
     }
 
     const logs = statistics["logs"]
