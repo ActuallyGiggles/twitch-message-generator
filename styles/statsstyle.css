@@ -238,7 +238,7 @@ input {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: rgb(67, 67, 67);
+	background: rgb(35, 35, 35);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -280,7 +280,7 @@ input {
 	max-width: 100% !important;
 	width: 70%;
 	height: 70px !important;
-	font-size: 30px !important;
+	font-size: 1.8em !important;
 }
 
 #homepage-link {
@@ -341,7 +341,7 @@ input {
 	}
 
 	#logs {
-		font-size: 30px !important;
+		font-size: 35px !important;
 		height: 100% !important;
 	}
 

@@ -332,6 +332,10 @@ input[type="button"]:hover {
 		width: 100%;
 	}
 
+	#random-button {
+		font-size: .9em !important;
+	}
+
 	#markov-portal-nav {
 		font-size: 1.5em;
 	}
@@ -626,7 +630,7 @@ footer a {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: rgb(67, 67, 67);
+	background: rgb(35, 35, 35);
 }
 
 ::-webkit-scrollbar-thumb:hover {
