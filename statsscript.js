@@ -148,10 +148,10 @@ function generateHtml() {
     for (let index = 0; index < logs.length; index++) {
         const log = logs[index];
         if (first) {
-            logsFormatted = log
             first = false
+            logsFormatted = log
         } else {
-            logsFormatted = logsFormatted + "<br>"+ log
+            logsFormatted = logsFormatted + "<br>" + log
         }
     }
     logsDiv.innerHTML = logsFormatted
@@ -231,7 +231,7 @@ function handleMobile(e) {
     }
 }
 
-function hideCategory(categoryID) {
+async function hideCategory(categoryID) {
     var categories = document.getElementsByClassName('category')
     for (const category of categories) {
         if (category.id == categoryID) {
@@ -245,7 +245,11 @@ function hideCategory(categoryID) {
     for (const tab of tabs) {
         if (tab.value == categoryID) {
             tab.style.opacity = 1
-        } else {
+        }
+    }
+    await new Promise(r => setTimeout(r, 200));
+    for (const tab of tabs) {
+        if (tab.value == categoryID) {
             tab.style.opacity = .7
         }
     }
