@@ -201,6 +201,10 @@ onReady(async () => {
         section.classList.remove("hidden")
     }
 
+    const mediaQuery = window.matchMedia('(max-width: 1160px)')
+    mediaQuery.addListener(handleMobile)
+    handleMobile(mediaQuery)
+
 	generateHtml()
 
 	setInterval(async () => {
@@ -215,13 +219,25 @@ onReady(async () => {
     }, 1000);
 });
 
+function handleMobile(e) {
+    var categories = document.getElementsByClassName('category')
+
+    for (const category of categories) {
+        if (category.id != "Time" && e.matches) {
+            category.classList.add("hidden")
+        } else {
+            category.classList.remove("hidden")
+        }
+    }
+}
+
 function hideCategory(categoryID) {
     var categories = document.getElementsByClassName('category')
     for (const category of categories) {
         if (category.id == categoryID) {
-            category.style.display = "flex"
+            category.classList.remove("hidden")
         } else {
-            category.style.display = "none"
+            category.classList.add("hidden")
         }
     }
 

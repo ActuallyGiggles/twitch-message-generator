@@ -712,10 +712,6 @@ footer a {
 	margin-bottom: 20px;
 }
 
-#stat-nav {
-	display: none;
-}
-
 .stat-nav-tab {
 	margin: 10px;
     width: 100%;
@@ -740,35 +736,15 @@ footer a {
 	.category {
 		margin-top: 20px;
 	}
-
-	#Website {
-		display: none;
-	}
-
-	#Memory {
-		display: none;
-	}
-
-	#Markov {
-		display: none;
-	}
 }
 
 @media (min-width: 1160px) {
-	#Time {
-		display: flex;
+	#stat-nav {
+		display: none;
 	}
 
-	#Website {
-		display: flex;
-	}
-
-	#Memory {
-		display: flex;
-	}
-
-	#Markov {
-		display: flex;
+	#info-box {
+		flex-direction: row;
 	}
 }
 
