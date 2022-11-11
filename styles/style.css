@@ -564,14 +564,8 @@ input {
 	font-weight: 600;
 }
 
-#suggested-streamers {
-	font-size: 0.7em;
-	font-weight: 300;
-	text-align: center;
-	margin: 30px;
-}
-
 #socials {
+	padding: 35px 0px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
