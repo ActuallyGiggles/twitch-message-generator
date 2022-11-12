@@ -353,6 +353,30 @@ input[type="button"]:hover {
 		max-height: 70px !important;
 	}
 
+	#using-card-space {
+		display: flex;
+    	width: 100%;
+    	justify-content: center;
+    	align-items: center;
+	}
+
+	#using-card-space .channel-card {
+		width: 70%;
+	}
+
+	#using-card-space .twitch-popout {
+		display: flex !important;
+		margin-right: 30px;
+	}
+
+	#using-card-space .twitch-logo {
+		width: 50px;
+	}
+
+	#channel-cards-container .twitch-popout {
+		display: none;
+	}
+
 	#result {
 		width: 85%;
 		font-size: 1.5em !important;
@@ -436,16 +460,33 @@ input {
 	align-items: center;
 }
 
+.channel-card .twitch-popout {
+	display: none;
+}
+
 .channel-card:hover .twitch-popout {
-	display:block;
-  	animation-name: twitch-popout;
-  	animation-duration: .25s;
+	display: flex;
+  	animation-name: twitch-popout-enter;
+  	animation-duration: .5s;
+	animation-fill-mode: forwards;
 	position: relative;
 }
 
-@keyframes twitch-popout {
-	from {left:20px; top:0px; opacity: 0;}
-	to  {left:0px; top:0px; opacity: 1;}
+@keyframes twitch-popout-enter {
+	from {
+		left:20px; 
+		opacity: 0;
+	}
+	to  {
+		left:0px; 
+		opacity: 1;
+	}
+}
+
+.twitch-logo{
+	padding-top: 10px;
+	width:30px;
+	margin-right: 10px;
 }
 
 .live-channel-profile-image, .dead-channel-profile-image {
@@ -501,17 +542,6 @@ input {
 .channel-name {
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-.twitch-popout{
-	display:none;
-	justify-content:center;
-	align-items: center;
-}
-
-.twitch-logo{
-	padding-top: 10px;
-	width:30px;
 }
 
 #api-error {

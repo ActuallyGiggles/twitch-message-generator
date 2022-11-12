@@ -11,7 +11,6 @@ const apiError = document.getElementById("api-error");
 const limiter = document.getElementById("limiter")
 const description = document.getElementById("description");
 const socials = document.getElementById("socials")
-const suggestedStreamers = document.getElementById("suggested-streamers")
 const donation = document.getElementById("donation");
 
 const homeUrl = "https://actuallygiggles.localtonet.com"
@@ -81,7 +80,6 @@ async function generateInitialHtml() {
 
 	markovPortal.classList.remove("hidden")
 	loadingPage.classList.add("hidden")
-	suggestedStreamers.classList.remove("hidden")
 	socials.classList.remove("hidden")
 }
 
