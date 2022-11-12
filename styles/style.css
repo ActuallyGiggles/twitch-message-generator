@@ -365,16 +365,13 @@ input[type="button"]:hover {
 	}
 
 	#using-card-space .twitch-popout {
-		display: flex !important;
 		margin-right: 30px;
+		opacity: 1;
+		right: 0px !important;
 	}
 
 	#using-card-space .twitch-logo {
 		width: 50px;
-	}
-
-	#channel-cards-container .twitch-popout {
-		display: none;
 	}
 
 	#result {
@@ -461,26 +458,19 @@ input {
 }
 
 .channel-card .twitch-popout {
-	display: none;
+	display: flex;
+	position: relative;
+
+	left: 20px;
+	opacity: 0;
+	transition: left .2s, opacity .2s;
 }
 
 .channel-card:hover .twitch-popout {
-	display: flex;
-  	animation-name: twitch-popout-enter;
-  	animation-duration: .5s;
-	animation-fill-mode: forwards;
-	position: relative;
-}
-
-@keyframes twitch-popout-enter {
-	from {
-		left:20px; 
-		opacity: 0;
-	}
-	to  {
-		left:0px; 
-		opacity: 1;
-	}
+	top: 0px;
+	left: 0px;
+	opacity: 1;
+	transition: left .2s, opacity .2s;
 }
 
 .twitch-logo{
