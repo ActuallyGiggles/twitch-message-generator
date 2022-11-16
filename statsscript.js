@@ -104,7 +104,7 @@ function generateHtml() {
     const sessionInputs = document.getElementById("session_inputs")
     sessionInputs.innerHTML = statistics["Markov"]["SessionInputs"].toLocaleString() + " msg"
     const averageInputs = document.getElementById("average_inputs")
-    averageInputs.innerHTML = `${Math.trunc((statistics["Markov"]["LifetimeInputs"]/(statistics["Markov"]["LifetimeUptime"]/1000000000))).toLocaleString()} msg/s`
+    averageInputs.innerHTML = `${Math.trunc((statistics["Markov"]["SessionInputs"]/(statistics["Markov"]["SessionUptime"]/1000000000))).toLocaleString()} msg/s`
     const inputsPerHour = document.getElementById("last_hour_inputs")
     if (statistics["InputsPerHour"] == 0) {
         inputsPerHour.innerHTML = "----- msgs"
@@ -127,7 +127,7 @@ function generateHtml() {
     const sessionOutputs = document.getElementById("session_outputs")
     sessionOutputs.innerHTML = statistics["Markov"]["SessionOutputs"].toLocaleString() + " msg"
     const averageOutputs = document.getElementById("average_outputs")
-    averageOutputs.innerHTML = `${Math.trunc((statistics["Markov"]["LifetimeOutputs"]/(statistics["Markov"]["LifetimeUptime"]/1000000000))).toLocaleString()} msg/s`
+    averageOutputs.innerHTML = `${(statistics["Markov"]["SessionOutputs"]/(statistics["Markov"]["SessionUptime"]/1000000000)).toLocaleString()} msg/s`
     const lastHourDeviation = document.getElementById("last_hour_deviation")
     const outputsPerHour = document.getElementById("last_hour_outputs")
     if (statistics["OutputsPerHour"] == 0) {
@@ -135,7 +135,7 @@ function generateHtml() {
         lastHourDeviation.title = `The deviation in the number of outputs in the last hour.`
     } else {
         lastHourDeviation.title = `The amount of messages put out in the last hour.`
-        outputsPerHour.innerHTML = (statistics["OutputsPerHour"]).toLocaleString()
+        outputsPerHour.innerHTML = `${(statistics["OutputsPerHour"]).toLocaleString()} msg`
 
         //var deviation = (statistics["OutputsPerHour"]) - 4686
         //outputsPerHour.innerHTML = `${deviation > 0 ? "+" : ""} ${deviation} msg`
