@@ -84,6 +84,11 @@ async function generateInitialHtml() {
 }
 
 async function fetchMarkovMessage(event, channelName) {
+	markovPortal.classList.add("disabled")
+	using.classList.add("disabled")
+	document.getElementById("header").classList.add("disabled")
+	document.getElementById("stats-link").classList.add("disabled")
+
 	scroll(0,0)
 	if (event != null) {
 		event.preventDefault();
@@ -228,6 +233,11 @@ function generateResultHtml(resultObj, isError) {
 
 	loadingResult.classList.add("hidden");
 	result.classList.remove("hidden");
+	
+	markovPortal.classList.remove("disabled")
+	using.classList.remove("disabled")
+	document.getElementById("header").classList.remove("disabled")
+	document.getElementById("stats-link").classList.remove("disabled")
 }
 
 const getJson = (markovUrl) => fetch(markovUrl, { method: "GET" }).then(async (response) => {
