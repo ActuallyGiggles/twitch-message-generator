@@ -658,6 +658,27 @@ footer a {
 	vertical-align: text-bottom;
 }
 
+#announcement {
+	font-size: 15px;
+	color: black;
+	background-color: yellow;
+	animation: flashing 2s infinite;
+	padding: 5px 10px;
+}
+
+@keyframes flashing {
+	0% {
+		opacity: .3;
+	}
+
+	80% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: .3;
+	}
+}
 
 /* Scrollbar */
 
