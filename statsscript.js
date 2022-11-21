@@ -64,7 +64,7 @@ function generateHtml() {
     const allocated = document.getElementById("memory_allocated")
 	allocated.innerHTML = `${statistics["memory_usage"]["allocated"].toLocaleString()} MB`
     const averageAllocation = document.getElementById("memory_average_allocation")
-	averageAllocation.innerHTML = `${Math.trunc((statistics["memory_usage"]["total_allocated"]/(statistics["Markov"]["SessionUptime"]/1000000000))).toLocaleString()} MB/s`
+	averageAllocation.innerHTML = `${(statistics["memory_usage"]["total_allocated"]/(statistics["Markov"]["SessionUptime"]/1000000000)).toLocaleString()} MB/s`
 	const system = document.getElementById("memory_system")
     system.innerHTML = `${statistics["memory_usage"]["system"].toLocaleString()} MB`
 
