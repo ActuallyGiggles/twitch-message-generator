@@ -1,8 +1,4 @@
 const section = document.getElementById("section")
-const stats = document.getElementById("stats")
-const writeModeDiv = document.getElementById("markov_write_mode")
-const capacityLabel = document.getElementById("capacity_label")
-const logsDiv = document.getElementById("logs")
 const loading = document.getElementById("loading-page")
 const offline = document.getElementById("offline")
 
@@ -72,6 +68,7 @@ function generateHtml() {
         // Overview
     const currentCount = document.getElementById("markov_current_count")
     const timeUntilWrite = document.getElementById("markov_time_until_write")
+    const capacityLabel = document.getElementById("capacity_label")
 	if (statistics["Markov"]["WriteMode"] == "interval") {
         capacityLabel.title = "How long until the next write cycle is started. (hours:minutes:seconds)"
         currentCount.classList.add("hidden")
@@ -104,7 +101,7 @@ function generateHtml() {
     const sessionInputs = document.getElementById("session_inputs")
     sessionInputs.innerHTML = statistics["Markov"]["SessionInputs"].toLocaleString() + " msg"
     const averageInputs = document.getElementById("average_inputs")
-    averageInputs.innerHTML = `${Math.trunc((statistics["Markov"]["SessionInputs"]/(statistics["Markov"]["SessionUptime"]/1000000000))).toLocaleString()} msg/s`
+    averageInputs.innerHTML = `${(statistics["Markov"]["SessionInputs"]/(statistics["Markov"]["SessionUptime"]/1000000000)).toLocaleString()} msg/s`
     const inputsPerHour = document.getElementById("last_hour_inputs")
     if (statistics["InputsPerHour"] == 0) {
         inputsPerHour.innerHTML = "----- msgs"
@@ -154,6 +151,7 @@ function generateHtml() {
             logsFormatted = logsFormatted + "<br>" + log
         }
     }
+    const logsDiv = document.getElementById("logs")
     logsDiv.innerHTML = logsFormatted
 }
 
