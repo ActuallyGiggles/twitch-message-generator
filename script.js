@@ -15,9 +15,8 @@ const donation = document.getElementById("donation");
 
 const homeUrl = "https://actuallygiggles.localtonet.com"
 const markovUrl = "https://actuallygiggles.localtonet.com/get-sentence?channel="
-const channelsUrl = "https://actuallygiggles.localtonet.com/tracked-channels"
-const liveUrl = "https://actuallygiggles.localtonet.com/live-channels"
-const emotesUrl = "https://actuallygiggles.localtonet.com/tracked-emotes"
+const dataUrl = "https://actuallygiggles.localtonet.com/data"
+const emotesUrl = "https://actuallygiggles.localtonet.com/emotes"
 
 let channels = {};
 let liveChannels = {};
@@ -94,6 +93,8 @@ async function fetchMarkovMessage(event, channelName) {
 		event.preventDefault();
 	}
 
+	getChannelEmotes(channelName)
+
 	displayName = channels[channelName].display_name
 
 	document.title = "Twitch Msg Gen • " + displayName;
@@ -102,7 +103,7 @@ async function fetchMarkovMessage(event, channelName) {
 
 	result.textContent = "";
 	result.classList.add("hidden")
-	loadingResult.classList.remove("hidden");
+	loadingResult.classList.remove("hidden")
 
 	let urlParameters = {};
 	if (channelName == "") {
@@ -115,8 +116,6 @@ async function fetchMarkovMessage(event, channelName) {
 	window.history.pushState(null, "", urlParameterString);
 
 	const json = await getJson(`${markovUrl}${urlParameters["channel"]}`);
-
-	getChannelEmotes(channelName)
 
 	var isError
 
@@ -133,7 +132,7 @@ async function fetchMarkovMessage(event, channelName) {
 		isError = false
 	}
 
-	console.log(channelName + ": " + message)
+	console.log(`${channelName}: ${message}`)
 
 	replaceEmotes(channelName, isError)
 }
@@ -265,47 +264,45 @@ function pickRandomChannel() {
 	return channels[keys[keys.length * Math.random() << 0]];
 }
 
-async function getChannelsInfo() {
-	var chans
+async function getChannelData() {
+	var data
 	const a = new Promise((resolve, reject) => {
 		setTimeout(() => {
 			resolve(false);
 		}, 10 * 1000);
 	});
 	const b = new Promise(async (resolve, reject) => {
-		chans = await getJson(`${channelsUrl}`)
+		data = await getJson(`${dataUrl}`)
 		resolve(true);
 	});
 	const APIOnlineBool = await Promise.race([a, b]);
-	
-	if (chans == null || !APIOnlineBool) {
+
+	console.log(`[CHANNELS DATA]`)
+
+	if (data == null || !APIOnlineBool) {
 		apiError.classList.remove("hidden")
 		loadingPage.classList.add("hidden")
 		donation.classList.add("hidden")
 	}
 
-	if (chans.hasOwnProperty("Error")) {
+	if (data.hasOwnProperty("Error")) {
 		limiter.classList.remove("hidden")
 		return
 	}
-	chans.sort((a, b) => a.login.localeCompare(b.login))
-	for (let index = 0; index < chans.length; index++) {
-		const channel = chans[index];
+
+	var channelsUsed = data["ChannelsUsed"]
+	channelsUsed.sort((a, b) => a.login.localeCompare(b.login))
+	for (let index = 0; index < channelsUsed.length; index++) {
+		const channel = channelsUsed[index];
 		if (channel.login == "actuallygiggles") {
 			continue
 		}
 		channels[channel.login] = channel
 	}
-}
 
-async function getLiveInfo() {
-	const live = await getJson(`${liveUrl}`)
-	if (live.hasOwnProperty("Error")) {
-		limiter.classList.remove("hidden")
-		return
-	}
-	for (let index = 0; index < live.length; index++) {
-		const channel = live[index];
+	var channelsLive = data["ChannelsLive"]
+	for (let index = 0; index < channelsLive.length; index++) {
+		const channel = channelsLive[index];
 		liveChannels[channel.Name] = channel.Live
 	}
 }
@@ -316,7 +313,9 @@ async function getGlobalEmotes() {
 		limiter.classList.remove("hidden")
 		return
 	}
+
 	var globalEmotes = emotesBulk["global"]
+	console.log(`[GLOBAL EMOTES]`)
 	for (let index = 0; index < globalEmotes.length; index++) {
 		const emote = globalEmotes[index];
 		emotes.set(emote.Name, emote.Url)
@@ -324,10 +323,16 @@ async function getGlobalEmotes() {
 }
 
 function getChannelEmotes(channelName) {
+	if (emotes[channelName] != undefined) {
+		return
+	}
+
 	var id = channels[channelName].id
 	get7tvEmotes(channelName)
 	getBttvEmotes(channelName, id)
 	getFfzEmotes(channelName, id)
+
+	console.log(`[CHANNEL EMOTES]: ${channelName}`)
 }
 
 async function get7tvEmotes(channelName) {
@@ -343,7 +348,7 @@ async function get7tvEmotes(channelName) {
 			emotes.set(name, url)
         }
     } catch (err) {
-        console.log(`${channelName}: no 7tv`);
+        console.log(`[NO 7TV]: ${channelName}`);
     }
 }
 
@@ -367,7 +372,7 @@ async function getBttvEmotes(channelName, id) {
 			emotes.set(name, url)
         }
     } catch (err) {
-        console.log(`${channelName}: no BTTV`);
+        console.log(`[NO BTTV]: ${channelName}`);
     }
 }
 
@@ -403,7 +408,7 @@ async function getFfzEmotes(channelName, id) {
 			emotes.set(name, urlChosen)
         }
     } catch (err) {
-        console.log(`${channelName}: no FFZ`);
+        console.log(`[NO FFZ]: ${channelName}`);
     }
 }
 
@@ -424,8 +429,7 @@ const onReady = (callback) => {
 };
 
 onReady(async () => {	
-	await getChannelsInfo()
-	await getLiveInfo()
+	await getChannelData()
 
 	generateInitialHtml()
 
