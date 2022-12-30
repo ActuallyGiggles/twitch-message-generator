@@ -430,6 +430,7 @@ const onReady = (callback) => {
 
 onReady(async () => {	
 	await getChannelData()
+	getGlobalEmotes()
 
 	generateInitialHtml()
 
@@ -440,8 +441,6 @@ onReady(async () => {
 			card.Card.classList.toggle("hidden", !isVisible)
 		});
 	})
-
-	getGlobalEmotes()
 	
 	document.addEventListener('click', function (event) {
 		if (event.target.className == "channel-card"
